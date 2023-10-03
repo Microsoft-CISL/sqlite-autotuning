@@ -1,0 +1,30 @@
+//
+// Run with:
+//
+//  mlos_bench --config config/cli/local-sqlite-bench.jsonc \
+//      --globals experiment-sqlite.jsonc \
+//      --tunable_values tunable-values/tunable-values-example.jsonc
+//
+{
+    // Where to find additional config files:
+    "config_path": [
+        ".",
+        "config"
+        // Note: upstream config snippets in MLOS/mlos_bench/mlos_bench/config
+        // are automatically added to the search path
+    ],
+
+    // The root CompositeEnvironment config to use for this experiment.
+    "environment": "environments/root/root-local-sqlite.jsonc",
+
+    // In this case we omit the optimizer config since it's just meant for a one shot run.
+    // Instead, we can provide --tunable-values on the CLI args to test an
+    // explicit set of tunable values.
+
+    // store all results in a local sqlite database
+    // (see MLOS/mlos_bench/mlos_bench/config/storage/sqlite.jsonc)
+    "storage": "storage/sqlite.jsonc",
+
+    "log_file": "local-sqlite-bench.log",
+    "log_level": "DEBUG"
+}
