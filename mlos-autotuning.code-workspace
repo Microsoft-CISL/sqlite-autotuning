@@ -6,5 +6,10 @@
         {
             "path": "MLOS"
         }
-    ]
+    ],
+    "settings": {
+        "cSpell.words": [
+            "benchbase"
+        ]
+    }
 }
