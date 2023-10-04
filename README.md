@@ -8,7 +8,7 @@ It is meant as an demo/example for tuning sqlite.
 
 ### Codespaces
 
-- *Nothing!
+- *Nothing!*
 
   Just open the project in your browser via Github CodeSpaces using the Code drop down at the top of this page :)
 
