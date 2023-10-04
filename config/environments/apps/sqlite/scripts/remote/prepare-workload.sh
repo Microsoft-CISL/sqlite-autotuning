@@ -39,8 +39,10 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
             mkdir -p "$OUT_DIR/config"
             cp ../local/benchbase/config/${BENCHBASE_CONFIG_FILE} "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE"
             # Use async writes for (untimed) preloading.
-            sed -i -r -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db[?]|\1${BENCHBASE_BENCHMARK}.db?synchronous=off\&amp;|" "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE"
-            sed -i -r -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db<|\1${BENCHBASE_BENCHMARK}.db?synchronous=off<|" "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE"
+            sed -i -r \
+                -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db[?]|\1${BENCHBASE_BENCHMARK}.db?synchronous=off\&amp;|" \
+                -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db<|\1${BENCHBASE_BENCHMARK}.db?synchronous=off<|" \
+                "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE"
         fi
 
         docker run --rm \
@@ -50,7 +52,6 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
             -v "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE:/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
             --user containeruser:$(id -g) \
             --env BENCHBASE_PROFILE=sqlite \
-            --workdir /benchbase \
             $BENCHBASE_IMAGE \
             -b $BENCHBASE_BENCHMARK -c "/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
             --create=true --load=true \
