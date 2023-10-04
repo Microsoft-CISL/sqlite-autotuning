@@ -6,6 +6,16 @@ It is meant as an demo/example for tuning sqlite.
 
 ## Prerequisites
 
+### Codespaces
+
+- *Nothing!*
+
+  Just open the project in your browser via Github CodeSpaces using the Code drop down at the top of this page :)
+
+  In that case you can skip to step 5 below.
+
+### Local
+
 - `git`
 - `docker`
 - `vscode`
@@ -31,28 +41,10 @@ It is meant as an demo/example for tuning sqlite.
     conda activate mlos
     ```
 
-6. Login to the Azure CLI:
+6. Run the `mlos_bench` tool.
+
+    For instance, to run the sqlite example from the upstream MLOS repo (pulled locally):
 
     ```sh
-    az login
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/experiment-sqlite-tpcc.jsonc" --max_iterations 10
     ```
-
-7. Stash some relevant auth info (e.g., subscription ID, resource group, etc.):
-
-    ```sh
-    ./MLOS/scripts/generate-azure-credentials-config.sh > global_azure_config.json
-    ```
-
-8. Run the `mlos_bench` tool.
-
-    For instance, to run the Redis example from the upstream MLOS repo (pulled locally):
-
-    ```sh
-    mlos_bench --config "./config/cli/azure-sqlite-opt.jsonc" --globals "./config/experiments/experiment-sqlite-bench.jsonc" --max_iterations 10
-    ```
-
-## See Also
-
-For other examples, please see one of the following:
-
-- [sqlite-autotuning](https://dev.azure.com/msgsl/MLOS/_git/sqlite-autotuning)
