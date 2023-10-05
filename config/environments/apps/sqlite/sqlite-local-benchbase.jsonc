@@ -1,0 +1,41 @@
+{
+    "class": "mlos_bench.environments.local.LocalEnv",
+
+    "include_tunables": ["environments/apps/sqlite/sqlite-tunables.jsonc"],
+
+    "config": {
+        "tunable_params": ["$sqlite"],
+        "dump_params_file": "sqlite-tunable-values.json",
+        "const_args": {
+            "BENCHBASE_BENCHMARK": "tpcc",
+            "USE_PRELOADED_DB": "true"
+        },
+        "required_args": [
+            "workdir",
+            "experiment_id",
+            "trial_id",
+            "BENCHBASE_BENCHMARK",
+            "USE_PRELOADED_DB"
+        ],
+        "shell_env_params": [
+            "workdir",
+            "experiment_id",
+            "trial_id",
+            "BENCHBASE_BENCHMARK",
+            "USE_PRELOADED_DB"
+        ],
+        "setup": [
+            "mkdir -p $workdir/$experiment_id/$trial_id",
+            "environments/apps/sqlite/scripts/local/prepare_server_config.py environments/apps/sqlite/benchbase/config/sample_${BENCHBASE_BENCHMARK}_config.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/sample_${BENCHBASE_BENCHMARK}_config.xml\"",
+            "environments/apps/sqlite/scripts/remote/prepare-workload.sh \"$workdir/$experiment_id/$trial_id\""
+        ],
+        "run": [
+            "mkdir -p $workdir/$experiment_id/$trial_id",
+            "environments/apps/sqlite/scripts/remote/run-workload.sh \"$workdir/$experiment_id/$trial_id\"",
+            "environments/apps/sqlite/scripts/local/convert-time-results.sh \"$workdir/$experiment_id/$trial_id\"",
+            "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\""
+        ],
+        "read_results_file": "benchbase-$BENCHBASE_BENCHMARK-metrics.csv",
+        "read_telemetry_file": "benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv"
+    }
+}
