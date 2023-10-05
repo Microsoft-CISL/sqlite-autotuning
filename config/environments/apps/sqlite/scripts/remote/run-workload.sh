@@ -33,6 +33,7 @@ if [ "$USE_PRELOADED_DB" != 'true' ]; then
 fi
 # else assume we already created it in prepare-workload.sh
 
+# Note: overriding the entrypoint in order to run with "time" for some basic resource stats.
 docker run --rm \
     --network=host \
     -v "$TARGET_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
@@ -40,7 +41,10 @@ docker run --rm \
     -v "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE:/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
     --user containeruser:$(id -g) \
     --env BENCHBASE_PROFILE=sqlite \
+    --entrypoint /usr/bin/time \
     $BENCHBASE_IMAGE \
+    -v -o /benchbase/results/exec-${BENCHBASE_BENCHMARK}.time.out \
+    /benchbase/entrypoint.sh \
     -b $BENCHBASE_BENCHMARK -c "/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
     $BENCHBASE_ARGS \
     -s 1 -im 1000 \
