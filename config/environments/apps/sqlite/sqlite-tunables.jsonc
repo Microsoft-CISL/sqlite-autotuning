@@ -1,0 +1,173 @@
+{
+    // A set of params that are tunable from the sqlite connection url for benchbase.
+    // See Also:
+    // https://github.com/xerial/sqlite-jdbc/blob/ebdda17470a343da174072104a79565cddb15c3b/src/main/java/org/sqlite/SQLiteConfig.java#L376C18-L376C18
+
+    "sqlite-sync": {
+        "cost": 1,
+        "description": "sqlite sync params",
+        "params": {
+            "synchronous": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_synchronous",
+                "type": "categorical",
+                "default": "normal",
+                "values": [
+                    "off",
+                    "normal",
+                    "full",
+                    "extra"
+                ]
+            }
+        }
+    },
+
+    "sqlite-journal": {
+        "cost": 1,
+        "description": "sqlite journal params",
+        "params": {
+            "journal_mode": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_journal_mode",
+                "type": "categorical",
+                "default": "delete",
+                "values": [
+                    "off",
+                    "delete",
+                    "truncate",
+                    "persist",
+                    "memory",
+                    "wal"
+                ]
+            },
+            "journal_size_limit": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_journal_size_limit",
+                // TODO: Use log scale here.
+                // Alt: specify explicit values to try via categorical.
+                "type": "int",
+                "default": -1,
+                "range": [-1, 2147483647],
+                "special": [-1]
+            },
+            /* Not supported by sqlite-jdbc:
+            "wal_autocheckpoint": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_wal_autocheckpoint",
+                "type": "int",
+                "default": 1000,
+                "range": [0, 100000],
+                "special": [0]
+            }
+            */
+        }
+    },
+
+    "sqlite-locking": {
+        "cost": 1,
+        "description": "sqlite locking params",
+        "params": {
+            "locking_mode": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_locking_mode",
+                "type": "categorical",
+                "default": "normal",
+                "values": [
+                    "normal",
+                    "exclusive"
+                ]
+            }
+        }
+    },
+
+    "sqlite-cache": {
+        "cost": 1,
+        "description": "sqlite cache params",
+        "params": {
+            "cache_size": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_cache_size",
+                "type": "int", // in pages
+                "default": 1,
+                "range": [1, 2147483647]
+            },
+            /* Not supported by sqlite-jdbc:
+            "cache_spill": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_cache_spill",
+                "type": "int",
+                "default": 500,
+                "range": [0, 2147483647],
+                "special": [0]
+            },
+            */
+            "mmap_size": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_mmap_size",
+                "type": "int",  // in bytes
+                "default": -1,
+                "range": [-1, 2147483647],
+                "special": [
+                    -1, // reset to compile time default
+                    0   // disable
+                ]
+            },
+            "temp_store": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_temp_store",
+                "type": "categorical",
+                "default": "default",
+                "values": [
+                    "default",
+                    "file",
+                    "memory"
+                ]
+            }
+        }
+    },
+
+    "sqlite-page-size": {
+        "cost": 1,
+        "description": "sqlite page size params",
+        "params": {
+            "page_size": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_page_size",
+                "type": "categorical",
+                "default": 4096,
+                "values": [512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+            }
+        }
+    },
+
+    "sqlite-vacuum": {
+        "cost": 1,
+        "description": "sqlite vacuum params",
+        "params": {
+            /* Not supported by sqlite-jdbc:
+            "auto_vacuum": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_auto_vacuum",
+                "type": "categorical",
+                "default": "none",
+                "values": [
+                    "none",
+                    "full",
+                    "incremental"
+                ]
+            },
+            */
+            "secure_delete": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_secure_delete",
+                "type": "categorical",
+                "default": false,
+                "values": [true, false]
+            }
+        }
+    }
+
+    /*
+    "sqlite-index": {
+        "cost": 1,
+        "description": "sqlite index params",
+        "params": {
+            // Not supported by sqlite-jdbc:
+            "automatic_index": {
+                "description": "https://www.sqlite.org/pragma.html#pragma_automatic_index",
+                "type": "categorical",
+                "default": true,
+                "values": [true, false]
+            }
+        }
+    }
+    */
+}
