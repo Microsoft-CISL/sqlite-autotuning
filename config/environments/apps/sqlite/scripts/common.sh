@@ -4,7 +4,10 @@ BENCHBASE_CONFIG_FILE="${BENCHBASE_CONFIG_FILE:-sample_${BENCHBASE_BENCHMARK}_co
 
 USE_PRELOADED_DB="${USE_PRELOADED_DB:-true}"
 
-TMP_DIR="${TMP_DIR:-/tmp}"
+repo_root=$(git rev-parse --show-toplevel || true)
+if [ -n "$repo_root" ]; then
+    TMP_DIR="$repo_root/tmp"
+fi
 if [ -n "${LOCAL_WORKSPACE_FOLDER:-}" ]; then
     # When executing inside a devcontainer we need to use the host's path instead.
     TMP_DIR="$LOCAL_WORKSPACE_FOLDER/tmp"
