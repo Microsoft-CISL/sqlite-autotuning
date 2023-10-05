@@ -47,6 +47,7 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
         fi
 
         docker run --rm \
+            -i --log-driver=none -a STDIN -a STDOUT -a STDERR --rm \
             --network=host \
             -v "$TARGET_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
             -v "$OUT_DIR/results:/benchbase/results" \
@@ -56,7 +57,7 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
             $BENCHBASE_IMAGE \
             -b $BENCHBASE_BENCHMARK -c "/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
             --create=true --load=true \
-            -d /benchbase \
+            -d /benchbase/results \
             -jh /benchbase/results/exec-${BENCHBASE_BENCHMARK}.json
 
         cp "$TARGET_DIR/$DB_FILE" "$BACKUP_DIR/$DB_FILE"

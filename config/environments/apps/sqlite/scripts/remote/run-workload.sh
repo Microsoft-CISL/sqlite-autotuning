@@ -35,6 +35,7 @@ fi
 
 # Note: overriding the entrypoint in order to run with "time" for some basic resource stats.
 docker run --rm \
+    -i --log-driver=none -a STDIN -a STDOUT -a STDERR --rm \
     --network=host \
     -v "$TARGET_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
     -v "$OUT_DIR/results:/benchbase/results" \
@@ -48,8 +49,9 @@ docker run --rm \
     -b $BENCHBASE_BENCHMARK -c "/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
     $BENCHBASE_ARGS \
     -s 1 -im 1000 \
-    -d /benchbase \
-    -jh /benchbase/results/exec-${BENCHBASE_BENCHMARK}.json
+    -d /benchbase/results \
+    -jh /benchbase/results/exec-${BENCHBASE_BENCHMARK}.json \
+    2>&1 | tee "$OUT_DIR/results/exec-${BENCHBASE_BENCHMARK}.log"
 
 if [ ! -s "$TARGET_DIR/$DB_FILE" ]; then
     echo "ERROR: db file is empty: $TARGET_DIR/$DB_FILE" >&2
