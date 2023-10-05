@@ -1,4 +1,4 @@
-BENCHBASE_IMAGE="benchbase.azurecr.io/benchbase-sqlite:latest"
+BENCHBASE_IMAGE="benchbase-sqlite-with-stats:latest"
 BENCHBASE_BENCHMARK="${BENCHBASE_BENCHMARK:-tpcc}"
 BENCHBASE_CONFIG_FILE="${BENCHBASE_CONFIG_FILE:-sample_${BENCHBASE_BENCHMARK}_config.xml}"
 

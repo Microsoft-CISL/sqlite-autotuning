@@ -14,6 +14,7 @@ set -x
 OUT_DIR="${1:-$TARGET_DIR}"
 
 check_docker
+../build-image.sh
 
 # Make sure some bind mount sources exist.
 mkdir -p "$OUT_DIR/results"

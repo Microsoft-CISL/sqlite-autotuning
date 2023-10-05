@@ -25,6 +25,7 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
         echo "INFO: Pre-loaded database file not found. Creating it now."
 
         check_docker
+        ../build-image.sh
 
         # Make sure some bind mount sources exist.
         mkdir -p "$OUT_DIR/results"
