@@ -1,0 +1,13 @@
+{
+    "experiment_id": "sqlite-sync-experiment",
+    "trial_id": 0, // testing a bug hypothesis
+
+    "workdir": ".",
+
+    "tunable_params_map": {
+        // See config/environments/apps/sqlite/sqlite-tunables.jsonc
+        "sqlite": [
+            "sqlite-sync"
+        ]
+    }
+}
