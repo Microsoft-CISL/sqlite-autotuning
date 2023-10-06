@@ -16,7 +16,7 @@ fi
 DB_DIR="${DB_DIR:-$tmp_dir/benchbase}"
 DB_BAK_DIR="${DB_BAK_DIR:-$DB_DIR.bak}"
 
-DB_FILE="${TARGET_DB_FILE:-$BENCHBASE_BENCHMARK.db}"
+DB_FILE="${DB_FILE:-$BENCHBASE_BENCHMARK.db}"
 
 check_root() {
     if [ $EUID != 0 ]; then
