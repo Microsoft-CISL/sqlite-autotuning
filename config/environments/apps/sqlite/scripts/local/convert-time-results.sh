@@ -9,7 +9,7 @@ scriptdir=$(dirname "$(readlink -f "$0")")
 cd "$scriptdir"
 source ../common.sh
 
-OUT_CUMULATIVE="$OUT_DIR/benchbase-${BENCHBASE_BENCHMARK}-system-metrics.csv"
+OUT_CSV_FILE="$OUT_DIR/benchbase-${BENCHBASE_BENCHMARK}-system-metrics.csv"
 
 # TODO: Add support for combining multiple metrics from several benchmarks together.
 
@@ -21,9 +21,9 @@ if [ -z "$time_file" ]; then
     exit 1
 fi
 
-echo "metric,value" > $OUT_CUMULATIVE
+echo "metric,value" > $OUT_CSV_FILE
 cat "$time_file" \
     | grep ': ' \
     | sed -r -e 's/^\s*//' -e 's/: /,/' \
-    >> "$OUT_CUMULATIVE"
-cat "$OUT_CUMULATIVE"
+    >> "$OUT_CSV_FILE"
+cat "$OUT_CSV_FILE"

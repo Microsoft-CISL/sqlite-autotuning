@@ -11,20 +11,19 @@ source ../common.sh
 
 set -x
 
-OUT_DIR="${1:-$TARGET_DIR}"
+TRIAL_DIR="${1:-$DB_DIR/trial}"
 
 check_docker
 ../build-image.sh
 
 # Make sure some bind mount sources exist.
-mkdir -p "$OUT_DIR/results"
-chgrp $(id -g) "$OUT_DIR/results"
-chmod g+w "$OUT_DIR/results"
-if [ ! -f "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE" ]; then
-    echo "ERROR: Config file not found: $OUT_DIR/config/$BENCHBASE_CONFIG_FILE" >&2
+mkdir -p "$TRIAL_DIR/results"
+chgrp $(id -g) "$TRIAL_DIR/results"
+chmod g+w "$TRIAL_DIR/results"
+if [ ! -f "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE" ]; then
+    echo "ERROR: Config file not found: $TRIAL_DIR/$BENCHBASE_CONFIG_FILE" >&2
     echo "Trying sample config instead for now." >&2
-    mkdir -p "$OUT_DIR/config"
-    cp ../local/benchbase/config/${BENCHBASE_CONFIG_FILE} "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE"
+    cp ../local/benchbase/config/sample_${BENCHBASE_BENCHMARK}_config.xml "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE"
 fi
 
 BENCHBASE_ARGS='--exec=true'
@@ -37,9 +36,9 @@ fi
 docker run --rm \
     -i --log-driver=none -a STDIN -a STDOUT -a STDERR --rm \
     --network=host \
-    -v "$TARGET_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
-    -v "$OUT_DIR/results:/benchbase/results" \
-    -v "$OUT_DIR/config/$BENCHBASE_CONFIG_FILE:/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
+    -v "$DB_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
+    -v "$TRIAL_DIR/results:/benchbase/results" \
+    -v "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE:/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
     --user containeruser:$(id -g) \
     --env BENCHBASE_PROFILE=sqlite \
     --entrypoint /usr/bin/time \
@@ -51,14 +50,14 @@ docker run --rm \
     -s 1 -im 1000 \
     -d /benchbase/results \
     -jh /benchbase/results/exec-${BENCHBASE_BENCHMARK}.json \
-    2>&1 | tee "$OUT_DIR/results/exec-${BENCHBASE_BENCHMARK}.log"
+    2>&1 | tee "$TRIAL_DIR/results/exec-${BENCHBASE_BENCHMARK}.log"
 
-if [ ! -s "$TARGET_DIR/$DB_FILE" ]; then
-    echo "ERROR: db file is empty: $TARGET_DIR/$DB_FILE" >&2
+if [ ! -s "$DB_DIR/$DB_FILE" ]; then
+    echo "ERROR: db file is empty: $DB_DIR/$DB_FILE" >&2
     exit 1
 fi
-if [ ! -s "$OUT_DIR/results/exec-${BENCHBASE_BENCHMARK}.json" ]; then
-    echo "ERROR: results file is empty: $OUT_DIR/results/exec-${BENCHBASE_BENCHMARK}.json" >&2
+if [ ! -s "$TRIAL_DIR/results/exec-${BENCHBASE_BENCHMARK}.json" ]; then
+    echo "ERROR: results file is empty: $TRIAL_DIR/results/exec-${BENCHBASE_BENCHMARK}.json" >&2
     exit 1
 fi
 

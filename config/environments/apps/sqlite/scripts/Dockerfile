@@ -1,6 +1,7 @@
 FROM benchbase.azurecr.io/benchbase-sqlite:latest
 
-# Install time for some basic timing stats.
+# Install /usr/bin/time for some basic system resouce and timing stats.
+
 USER root
 
 RUN apt-get update \

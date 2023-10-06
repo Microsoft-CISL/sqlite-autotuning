@@ -14,8 +14,8 @@
         // are automatically added to the search path
     ],
 
-    // The root CompositeEnvironment config to use for this experiment.
-    "environment": "environments/root/root-local-sqlite.jsonc",
+    // The root Environment config to use for this experiment.
+    "environment": "environments/apps/sqlite/sqlite-local-benchbase.jsonc",
 
     // In this case we use the default mlos_core optimizer to run a series of
     // trials for the experiment, testing different tunable values combinations

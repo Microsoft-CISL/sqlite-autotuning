@@ -1,19 +1,36 @@
+// TODO: break these up into separate environments to mirror the local vs.
+// remote bits we usually have?
 {
-    "class": "mlos_bench.environments.local.LocalEnv",
+    "name": "sqlite-local-benchbase",
+    "description": "A local only environment for running/tuning sqlite via benchbase.",
 
+    "class": "mlos_bench.environments.local.LocalEnv",
     "include_tunables": ["environments/apps/sqlite/sqlite-tunables.jsonc"],
 
     "config": {
+        // Which tunable parameters this environment will work on.
+        // Here we specify which group(s) of parameters to use for *this*
+        // experiment by referencing the tunable_params_map from the experiment
+        // globals config specified in the CLI invocation.
+        // This separation allows us to reuse this config as is, but manipulate
+        // the tunable_params_map to test different groups of parameters for
+        // different configurations.
         "tunable_params": ["$sqlite"],
+        // Upon generating a new set of tunable values, we dump them to a file
+        // for use by scripts below.
         "dump_params_file": "sqlite-tunable-values.json",
+
+        // Some additional variables that the scripts below will require.
         "const_args": {
             "BENCHBASE_BENCHMARK": "tpcc",
-            "USE_PRELOADED_DB": "true"
+            "USE_PRELOADED_DB": "true",
+            "DB_DIR": "$workdir/benchbase/db",
+            "DB_BAK_DIR": "$workdir/benchbase/db.bak"
         },
         "required_args": [
-            "workdir",
             "experiment_id",
-            "trial_id",
+            "trial_id", // FIXME: not getting incremented?
+            "workdir",  // FIXME: abspath?
             "BENCHBASE_BENCHMARK",
             "USE_PRELOADED_DB"
         ],
@@ -26,16 +43,36 @@
         ],
         "setup": [
             "mkdir -p $workdir/$experiment_id/$trial_id",
-            "environments/apps/sqlite/scripts/local/prepare_server_config.py environments/apps/sqlite/benchbase/config/sample_${BENCHBASE_BENCHMARK}_config.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/sample_${BENCHBASE_BENCHMARK}_config.xml\"",
+            // Create the config file for the trial based on the tunable values
+            // that were dumped to a file above.
+            "environments/apps/sqlite/scripts/local/prepare_server_config.py environments/apps/sqlite/local/benchbase/config/config_$BENCHBASE_BENCHMARK.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/config_$BENCHBASE_BENCHMARK.xml\"",
+            // Normally DB prep would happen in a separate (e.g., remote)
+            // environment, but since sqlite is local, we do it all here.
             "environments/apps/sqlite/scripts/remote/prepare-workload.sh \"$workdir/$experiment_id/$trial_id\""
         ],
         "run": [
             "mkdir -p $workdir/$experiment_id/$trial_id",
+
+            // Run the workload.
+            // Normally this would happen in a separate remote environment, but
+            // since sqlite is local, we do it all here.
             "environments/apps/sqlite/scripts/remote/run-workload.sh \"$workdir/$experiment_id/$trial_id\"",
+
+            // Back on the local machine (again, assuming those results were
+            // downloaded from the remote environment), we post process the
+            // results into something the optimizer and results storage engine
+            // can consume (e.g., csv file).
             "environments/apps/sqlite/scripts/local/convert-time-results.sh \"$workdir/$experiment_id/$trial_id\"",
-            "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\""
+            "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-metrics.csv benchbase-metrics.csv",
+
+            "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\"",
+            "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv benchbase-system-metrics.csv",
         ],
-        "read_results_file": "benchbase-$BENCHBASE_BENCHMARK-metrics.csv",
-        "read_telemetry_file": "benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv"
+
+        // Finally, we instruct the optimizer and results storage engine to use
+        // those results.
+        // Note: these are stored into a temporary directory.
+        "read_results_file": "benchbase-metrics.csv",
+        "read_telemetry_file": "benchbase-system-metrics.csv"
     }
 }

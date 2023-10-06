@@ -1,20 +1,20 @@
 BENCHBASE_IMAGE="benchbase-sqlite-with-stats:latest"
 BENCHBASE_BENCHMARK="${BENCHBASE_BENCHMARK:-tpcc}"
-BENCHBASE_CONFIG_FILE="${BENCHBASE_CONFIG_FILE:-sample_${BENCHBASE_BENCHMARK}_config.xml}"
+BENCHBASE_CONFIG_FILE="${BENCHBASE_CONFIG_FILE:-config_${BENCHBASE_BENCHMARK}.xml}"
 
 USE_PRELOADED_DB="${USE_PRELOADED_DB:-true}"
 
 repo_root=$(git rev-parse --show-toplevel || true)
 if [ -n "$repo_root" ]; then
-    TMP_DIR="$repo_root/tmp"
+    tmp_dir="$repo_root/tmp"
 fi
 if [ -n "${LOCAL_WORKSPACE_FOLDER:-}" ]; then
     # When executing inside a devcontainer we need to use the host's path instead.
-    TMP_DIR="$LOCAL_WORKSPACE_FOLDER/tmp"
+    tmp_dir="$LOCAL_WORKSPACE_FOLDER/tmp"
 fi
 
-TARGET_DIR="${TARGET_DIR:-$TMP_DIR/benchbase}"
-BACKUP_DIR="${BACKUP_DIR:-$TMP_DIR/benchbase-backup}"
+DB_DIR="${DB_DIR:-$tmp_dir/benchbase}"
+DB_BAK_DIR="${DB_BAK_DIR:-$DB_DIR.bak}"
 
 DB_FILE="${TARGET_DB_FILE:-$BENCHBASE_BENCHMARK.db}"
 

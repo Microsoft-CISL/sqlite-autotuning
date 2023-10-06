@@ -14,8 +14,8 @@
         // are automatically added to the search path
     ],
 
-    // The root CompositeEnvironment config to use for this experiment.
-    "environment": "environments/root/root-local-sqlite.jsonc",
+    // The root Environment config to use for this experiment.
+    "environment": "environments/apps/sqlite/sqlite-local-benchbase.jsonc",
 
     // In this case we omit the optimizer config since it's just meant for a one shot run.
     // Instead, we can provide --tunable-values on the CLI args to test an
