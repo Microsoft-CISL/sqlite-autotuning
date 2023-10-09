@@ -156,3 +156,9 @@ cython_debug/
 
 # Ignore smac output directories.
 smac_output/
+
+# Ignore local working directory.
+tmp/
+# Ignore linked confs.
+.pylintrc
+setup.cfg
