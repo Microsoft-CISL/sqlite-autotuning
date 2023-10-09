@@ -8,6 +8,7 @@ about preparing the database file and benchbase configs.
 """
 
 import logging
+import os
 import sys
 import json
 import urllib.parse
@@ -23,7 +24,15 @@ from bs4 import BeautifulSoup
 logging.getLogger().setLevel(logging.INFO)
 
 
-def write_new_config_file(input_file: str, tunables_file: str, output_file: str):
+def resolve_input_file_path(input_file_name: str) -> str:
+    """
+    Determine the absolute path of the input config file name.
+    """
+    return os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                        "benchbase", "config", input_file_name)
+
+
+def write_new_config_file(input_file: str, tunables_file: str, output_file: str) -> None:
     """
     Read the input file, modifies it with the parameters in the provided
     tunables file, and writes it to the output file.
@@ -43,7 +52,7 @@ def write_new_config_file(input_file: str, tunables_file: str, output_file: str)
     # Returns a dict of the query string elements but each value is a list.
     query_string_elems = urllib.parse.parse_qs(url.query)
 
-    with open(tunables_file, "r+t") as f:
+    with open(tunables_file, "r+t", encoding='utf-8') as f:
         tunables = json.load(f)
 
     for key, val in tunables.items():
@@ -63,8 +72,8 @@ def write_new_config_file(input_file: str, tunables_file: str, output_file: str)
 
 def usage() -> None:
     """Print the usage message."""
-    print("Usage: prepare_server_config.py <input_file> <tunables_file> <output_file>")
-    sys.exit(1)
+    print("Usage: prepare_server_config.py <input_config_name> <tunables_file_path> <output_file_path>")
+    raise SystemExit(1)
 
 
 if __name__ == "__main__":
@@ -73,5 +82,8 @@ if __name__ == "__main__":
 
     # remove the script name
     sys.argv.pop(0)
-    (input_file, tunables_file, output_file) = sys.argv
-    write_new_config_file(input_file, tunables_file, output_file)
+    assert len(sys.argv) == 3
+
+    (input_config_file_name, tunables_file_path, output_file_path) = (sys.argv[0], sys.argv[1], sys.argv[2])
+    input_config_file_path = resolve_input_file_path(input_config_file_name)
+    write_new_config_file(input_config_file_path, tunables_file_path, output_file_path)

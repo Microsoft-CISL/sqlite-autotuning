@@ -2,7 +2,7 @@
     "experiment_id": "sqlite-sync-experiment",
     "trial_id": 0, // FIXME: testing a bug hypothesis - nope, somehow this gets incremented regardless, but I didn't see how ...
 
-    //"workdir": null // provide on the CLI instead via --workdir=$PWD
+    "workdir": "./workdir/", // alternatively, use --workdir=$PWD/workdir on the cli
 
     "tunable_params_map": {
         // See config/environments/apps/sqlite/sqlite-tunables.jsonc

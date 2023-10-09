@@ -52,7 +52,7 @@
                 // FIXME: The second argument needs to be resolved as a local path.
                 // How do we get the PWD not as the tempdir, but as the root of the
                 // repo or resolved from the config search path?
-            "environments/apps/sqlite/scripts/local/prepare_server_config.py environments/apps/sqlite/local/benchbase/config/config_$BENCHBASE_BENCHMARK.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/config_$BENCHBASE_BENCHMARK.xml\"",
+            "environments/apps/sqlite/scripts/local/prepare_server_config.py config_$BENCHBASE_BENCHMARK.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/config_$BENCHBASE_BENCHMARK.xml\"",
             // Normally DB prep would happen in a separate (e.g., remote)
             // environment, but since sqlite is local, we do it all here.
             "environments/apps/sqlite/scripts/remote/prepare-workload.sh \"$workdir/$experiment_id/$trial_id\""
