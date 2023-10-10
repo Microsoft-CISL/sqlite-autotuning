@@ -59,9 +59,6 @@
             "mkdir -p $workdir/$experiment_id/$trial_id",
             // Create the config file for the trial based on the tunable values
             // that were dumped to a file above.
-                // FIXME: The second argument needs to be resolved as a local path.
-                // How do we get the PWD not as the tempdir, but as the root of the
-                // repo or resolved from the config search path?
             "environments/apps/sqlite/scripts/local/prepare_server_config.py sample_${BENCHBASE_BENCHMARK}_config.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/config_$BENCHBASE_BENCHMARK.xml\"",
             // Normally DB prep would happen in a separate (e.g., remote)
             // environment, but since sqlite is local, we do it all here.
