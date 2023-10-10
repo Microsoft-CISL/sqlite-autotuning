@@ -12,6 +12,12 @@ if [ "${NO_CACHE:-false}" == 'true' ]; then
     build_args+='--no-cache --pull'
 fi
 
+# Make sure we have the base image locally.
+base_image=$(grep '^FROM ' ./Dockerfile | awk '{print $2}' | cut -d: -f1)
+if ! docker image ls | egrep -q "^$base_image\s"; then
+    docker image pull $base_image
+fi
+
 tmpdir=$(mktemp -d) # empty context dir
 
 set -x
