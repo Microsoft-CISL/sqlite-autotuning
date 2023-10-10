@@ -124,8 +124,8 @@
             "page_size": {
                 "description": "https://www.sqlite.org/pragma.html#pragma_page_size",
                 "type": "categorical",
-                "default": 4096,
-                "values": [512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+                "default": "4096",
+                "values": ["512", "1024", "2048", "4096", "8192", "16384", "32768", "65536"]
             }
         }
     },
