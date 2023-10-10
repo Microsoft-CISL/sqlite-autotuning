@@ -9,7 +9,8 @@
     ],
     "settings": {
         "cSpell.words": [
-            "benchbase"
+            "benchbase",
+            "workdir"
         ]
     }
 }

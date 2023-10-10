@@ -41,19 +41,20 @@ if [ "$USE_PRELOADED_DB" == 'true' ]; then
             echo "ERROR: Config file not found: $TRIAL_DIR/$BENCHBASE_CONFIG_FILE" >&2
             echo "Trying sample config instead for now." >&2
             cp ../local/benchbase/config/sample_${BENCHBASE_BENCHMARK}_config.xml "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE"
-            # Use async writes for (untimed) preloading.
-            sed -i -r \
-                -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db[?]|\1${BENCHBASE_BENCHMARK}.db?synchronous=off\&amp;|" \
-                -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db<|\1${BENCHBASE_BENCHMARK}.db?synchronous=off<|" \
-                "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE"
         fi
+
+        # Use async writes for (untimed) preloading.
+        cp "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE" "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE.prepare"
+        sed -i -r \
+            -e "s|(<url>jdbc:sqlite:.*)${BENCHBASE_BENCHMARK}.db.*</url>|\1${BENCHBASE_BENCHMARK}.db?synchronous=off</url>|" \
+            "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE.prepare"
 
         docker run --rm \
             -i --log-driver=none -a STDIN -a STDOUT -a STDERR --rm \
             --network=host \
             -v "$(translate_devcontainer_dir "$DB_DIR/$DB_FILE"):/benchbase/profiles/sqlite/$DB_FILE" \
             -v "$(translate_devcontainer_dir "$TRIAL_DIR/results"):/benchbase/results" \
-            -v "$(translate_devcontainer_dir "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE"):/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
+            -v "$(translate_devcontainer_dir "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE.prepare"):/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
             --user containeruser:$(id -g) \
             --env BENCHBASE_PROFILE=sqlite \
             $BENCHBASE_IMAGE \

@@ -35,8 +35,10 @@
         },
         "required_args": [
             "experiment_id",
-            "trial_id", // FIXME: not getting incremented?
-            "workdir",  // FIXME: abspath?
+            "trial_id",
+            "workdir",
+            "DB_DIR",
+            "DB_BAK_DIR",
             "BENCHBASE_BENCHMARK",
             "USE_PRELOADED_DB",
             "CONTAINER_WORKSPACE_FOLDER",
@@ -44,6 +46,8 @@
         ],
         "shell_env_params": [
             "workdir",
+            "DB_DIR",
+            "DB_BAK_DIR",
             "experiment_id",
             "trial_id",
             "BENCHBASE_BENCHMARK",
