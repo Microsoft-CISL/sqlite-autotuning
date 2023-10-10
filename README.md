@@ -46,5 +46,11 @@ It is meant as an demo/example for tuning sqlite.
     For instance, to run the sqlite example from the upstream MLOS repo (pulled locally):
 
     ```sh
-    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/experiment-sqlite-tpcc.jsonc" --max_iterations 10
+    # Run the oneshot benchmark.
+    mlos_bench --config "./config/cli/local-sqlite-bench.jsonc" --globals "./config/experiments/sqlite-sync-experiment.jsonc"
+    ```
+
+    ```sh
+    # Run the optimization loop.
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --max-iterations 10000 2>&1 | tee local-sqlite-opt.log
     ```
