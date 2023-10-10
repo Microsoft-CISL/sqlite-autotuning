@@ -77,13 +77,14 @@
             // results into something the optimizer and results storage engine
             // can consume (e.g., csv file).
             "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\"",
-            "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-metrics.csv benchbase-metrics.csv",
+            "cp $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-metrics.csv benchbase-metrics.csv",
 
             "environments/apps/sqlite/scripts/local/convert-time-results.sh \"$workdir/$experiment_id/$trial_id\"",
-            "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv benchbase-system-metrics.csv",
+            "cp $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv benchbase-system-metrics.csv",
 
             // Combine the two CSV files into a single one.
-            "cat benchbase-metrics.csv benchbase-system-metrics.csv | sort -u > benchbase-combined-metrics.csv"
+            "sed -i '/^metric,value$/d' benchbase-system-metrics.csv",
+            "cat benchbase-metrics.csv benchbase-system-metrics.csv > benchbase-combined-metrics.csv"
         ],
 
         // Finally, we instruct the optimizer and results storage engine to use
