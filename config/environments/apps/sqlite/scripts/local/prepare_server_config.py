@@ -67,7 +67,7 @@ def write_new_config_file(input_file: str, tunables_file: str, output_file: str)
     # Write the new config out.
     logging.info("Writing new config to %s", output_file)
     with open(output_file, "w+t", encoding='utf-8') as f:
-        f.write(config.prettify())
+        f.write(str(config))
 
 
 def usage() -> None:
