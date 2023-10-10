@@ -4,6 +4,9 @@
 
     "workdir": "$PWD/workdir/", // alternatively, use --workdir=$PWD/workdir on the cli
 
+    "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER/",
+    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER/",
+
     "tunable_params_map": {
         // See config/environments/apps/sqlite/sqlite-tunables.jsonc
         "sqlite": [

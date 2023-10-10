@@ -63,3 +63,13 @@ check_docker() {
         done
     fi
 }
+
+translate_devcontainer_dir() {
+    path="$1"
+    # Attempt to translate a devcontainer path to a host path.
+    if [ -z "${CONTAINER_WORKSPACE_FOLDER:-}" ] || [ -z "${LOCAL_WORKSPACE_FOLDER:-}" ]; then
+        echo "$path"
+    else
+        echo "$path" | sed -r "s|^$CONTAINER_WORKSPACE_FOLDER|$LOCAL_WORKSPACE_FOLDER|"
+    fi
+}

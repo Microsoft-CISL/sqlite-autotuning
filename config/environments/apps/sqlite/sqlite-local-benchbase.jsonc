@@ -29,21 +29,27 @@
             "BENCHBASE_BENCHMARK": "tpcc",
             "USE_PRELOADED_DB": "true",
             "DB_DIR": "$workdir/benchbase/db",
-            "DB_BAK_DIR": "$workdir/benchbase/db.bak"
+            "DB_BAK_DIR": "$workdir/benchbase/db.bak",
+            "CONTAINER_WORKSPACE_FOLDER": "",
+            "LOCAL_WORKSPACE_FOLDER": ""
         },
         "required_args": [
             "experiment_id",
             "trial_id", // FIXME: not getting incremented?
             "workdir",  // FIXME: abspath?
             "BENCHBASE_BENCHMARK",
-            "USE_PRELOADED_DB"
+            "USE_PRELOADED_DB",
+            "CONTAINER_WORKSPACE_FOLDER",
+            "LOCAL_WORKSPACE_FOLDER"
         ],
         "shell_env_params": [
             "workdir",
             "experiment_id",
             "trial_id",
             "BENCHBASE_BENCHMARK",
-            "USE_PRELOADED_DB"
+            "USE_PRELOADED_DB",
+            "CONTAINER_WORKSPACE_FOLDER",
+            "LOCAL_WORKSPACE_FOLDER"
         ],
         "setup": [
             "mkdir -p $workdir/$experiment_id/$trial_id",

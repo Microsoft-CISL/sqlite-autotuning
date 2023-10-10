@@ -36,9 +36,9 @@ fi
 docker run --rm \
     -i --log-driver=none -a STDIN -a STDOUT -a STDERR --rm \
     --network=host \
-    -v "$DB_DIR/$DB_FILE:/benchbase/profiles/sqlite/$DB_FILE" \
-    -v "$TRIAL_DIR/results:/benchbase/results" \
-    -v "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE:/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
+    -v "$(translate_devcontainer_dir "$DB_DIR/$DB_FILE"):/benchbase/profiles/sqlite/$DB_FILE" \
+    -v "$(translate_devcontainer_dir "$TRIAL_DIR/results"):/benchbase/results" \
+    -v "$(translate_devcontainer_dir "$TRIAL_DIR/$BENCHBASE_CONFIG_FILE"):/benchbase/config/sqlite/$BENCHBASE_CONFIG_FILE" \
     --user containeruser:$(id -g) \
     --env BENCHBASE_PROFILE=sqlite \
     --entrypoint /usr/bin/time \
