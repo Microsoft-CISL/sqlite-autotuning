@@ -1,0 +1,22 @@
+{
+    "experiment_id": "sqlite-sync-journal-pagesize-caching-experiment",
+    "trial_id": 0, // FIXME: testing a bug hypothesis - nope, somehow this gets incremented regardless, but I didn't see how ...
+
+    "workdir": "$PWD/workdir/", // alternatively, use --workdir=$PWD/workdir on the cli
+
+    "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER/",
+    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER/",
+
+    "optimization_target": "99th Percentile Latency (microseconds)",
+    "optimization_direction": "min",
+
+    "tunable_params_map": {
+        // See config/environments/apps/sqlite/sqlite-tunables.jsonc
+        "sqlite": [
+            "sqlite-sync",
+            "sqlite-journal",
+            "sqlite-page-size",
+            "sqlite-cache"
+        ]
+    }
+}
