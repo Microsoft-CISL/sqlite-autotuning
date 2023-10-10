@@ -13,13 +13,20 @@
     "runArgs": [
         "--env-file", ".env"
     ],
-    // Make sure the container user can read/write to the package caches.
     "onCreateCommand": {
+        // Make the localWorkspaceFolder available.
+        "symlinkDirs": "sudo -n mkdir -p \"`dirname '${localWorkspaceFolder}'`\" && sudo -n ln -sfn \"${containerWorkspaceFolder}\" \"${localWorkspaceFolder}\"",
+        // Make sure the container user can read/write to the package caches.
         "fixCachePerms": "sudo -n mkdir -p /opt/conda/pkgs/cache /var/cache/pip && sudo -n chown -R vscode /opt/conda/pkgs/cache /var/cache/pip",
+        // Add the MLOS repo if it's not already there.
         "cloneMlos": "test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git && cd MLOS && git pull"
     },
     // Make sure the conda env is up to date with the source tree expectations.
-    "postCreateCommand": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml",
+    "postCreateCommand": {
+        "linkStyleConfs": "for i in .pylintrc setup.cfg; do ln -sfn MLOS/$i ./; done",
+        "fetchExampleDb": "test -f mlos_bench.sqlite || wget -Nc https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/mlos_bench.sqlite",
+        "updateEnv": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml",
+    },
     // Various mounting, run, post-create, and user settings
     "containerEnv": {
         "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
