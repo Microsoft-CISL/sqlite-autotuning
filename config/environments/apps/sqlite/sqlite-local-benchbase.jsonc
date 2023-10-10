@@ -76,20 +76,19 @@
             // downloaded from the remote environment), we post process the
             // results into something the optimizer and results storage engine
             // can consume (e.g., csv file).
-            "environments/apps/sqlite/scripts/local/convert-time-results.sh \"$workdir/$experiment_id/$trial_id\"",
+            "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\"",
             "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-metrics.csv benchbase-metrics.csv",
 
-            "environments/apps/sqlite/scripts/local/benchbase/convert-benchbase-results.sh \"$workdir/$experiment_id/$trial_id\"",
+            "environments/apps/sqlite/scripts/local/convert-time-results.sh \"$workdir/$experiment_id/$trial_id\"",
             "mv $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv benchbase-system-metrics.csv",
 
-            // TODO: Combine the two CSV files into a single one.
+            // Combine the two CSV files into a single one.
+            "cat benchbase-metrics.csv benchbase-system-metrics.csv | sort -u > benchbase-combined-metrics.csv"
         ],
 
         // Finally, we instruct the optimizer and results storage engine to use
         // those results.
         // Note: these are stored into a temporary directory.
-        "read_results_file": "benchbase-metrics.csv",
-        // FIXME: Include system metrics as a part of results and benchbase telemetry separately.
-        "read_telemetry_file": "benchbase-system-metrics.csv"
+        "read_results_file": "benchbase-combined-metrics.csv"
     }
 }
