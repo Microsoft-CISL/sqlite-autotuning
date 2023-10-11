@@ -93,10 +93,11 @@
                 "njpwerner.autodocstring",
                 "redhat.vscode-yaml",
                 //"stkb.rewrap",
-                "streetsidesoftware.code-spell-checker"
+                "streetsidesoftware.code-spell-checker",
                 //"trond-snekvik.simple-rst",
                 //"tyriar.sort-lines",
                 //"waderyan.gitblame"
+                "ms-toolsai.jupyter"
             ]
         }
     }
