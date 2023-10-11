@@ -26,7 +26,7 @@
         "updateMlos": "cd MLOS && git pull",
         "linkStyleConfs": "for i in .pylintrc setup.cfg; do ln -sfn MLOS/$i ./; done",
         "fetchExampleDb": "test -f mlos_bench.sqlite || wget -Nc https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/mlos_bench.sqlite",
-        "updateEnv": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml"
+        "updateEnv": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml",
     },
     // Various mounting, run, post-create, and user settings
     "containerEnv": {
