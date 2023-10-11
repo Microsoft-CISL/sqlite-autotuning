@@ -1,10 +1,10 @@
-name: MLOS Markdown Link Check
+name: MLOS Demo Markdown Link Check
 
 on:
   workflow_dispatch:
     inputs:
       tags:
-        description: Manual MLOS Markdown Link Check run
+        description: Manual MLOS Demo Markdown Link Check run
   push:
     branches: [ main ]
   pull_request:
