@@ -22,12 +22,12 @@ There are two items in this example:
   In that case you can skip to step 5 below.
 
   <!-- markdownlint-disable-next-line MD033 -->
-  <img src="./doc/images/github-open-in-codespace.png" style="width:500px" />
+  <img src="./doc/images/github-open-in-codespace.png" style="width:500px" alt="open github repo in codespace" />
 
   > Note: you can also re-open your codespace in [VSCode](https://code.visualstudio.com/Download) once created if you want to use a local desktop interface.
 
     <!-- markdownlint-disable-next-line MD033 -->
-    <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" />
+    <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" alt="open codespace in vscode menu option" />
 
 ### Local
 
@@ -51,9 +51,9 @@ There are two items in this example:
 1. Reopen the workspace (if prompted).
 
     <!-- markdownlint-disable-next-line MD033 -->
-    <img src="./doc/images/codespace-open-workspace.png" style="width:500px" />
+    <img src="./doc/images/codespace-open-workspace.png" style="width:500px" alt="open workspace prompt" />
 
-    > Note: you can trigger the prompt by browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
+    > Note: you can trigger the prompt by browse to the [`mlos-autotuning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
 
 1. Make sure the MLOS dependencies are up to date.
 
@@ -80,7 +80,7 @@ There are two items in this example:
     ```
 
     <!-- markdownlint-disable-next-line MD033 -->
-    <img src="./doc/images/codespace-terminal.png" style="width:500px" />
+    <img src="./doc/images/codespace-terminal.png" style="width:500px" alt="codespace terminal activating mlos conda environment" />
 
 1. Make sure the TPC-C database is preloaded.
 
@@ -132,8 +132,13 @@ There are two items in this example:
 
     To do this, it follows the procedure outlined above, but instead of running a single trial, it runs an optimization loop that runs multiple trials, each time updating the tunable parameters based on the results of the previous trial, balancing exploration and exploitation to find the optimal set of parameters.
 
-    <!-- TODO: Add an image depicting what's going on here -->
+    The overall process looks like this:
 
+    <!-- markdownlint-disable-next-line MD033 -->
+    <img src="./doc/images/llamatune-loop.png" style="width:700px" alt="optimization loop" />
+
+    > Source: [LlamaTune: VLDB 2022](https://arxiv.org/abs/2203.05128)
+    <!-- -->
     > Note: while that's executing you can try exploring other previously collected data using the [`mlos_storage_demo.ipynb`](./mlos_storage_demo.ipynb) notebook.
 
 1. Use the [`mlos_sqlite_demo.ipynb`](./mlos_sqlite_demo.ipynb) notebook to analyze the results.
