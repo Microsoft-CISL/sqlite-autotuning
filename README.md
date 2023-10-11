@@ -40,10 +40,12 @@ There are two items in this example:
    > Note: you can trigger the prompt by browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
 
 1. Run the following code in the terminal at the bottom of the page, confirm you get an output back with help text
+
     ```sh
     conda activate mlos
     mlos_bench --help
     ```
+
 1. **That's it!**  If you run into any issues, please reach out to the teaching team and we can assist prior to class starting.
 
 ## Start of Class
