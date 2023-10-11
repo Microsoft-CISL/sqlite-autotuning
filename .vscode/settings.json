@@ -138,5 +138,19 @@
     "python.testing.pytestArgs": [
         "-n1",  // don't run tests in parallel inside vscode - makes attaching the debugger more cumbersome
         "."
+    ],
+    "cSpell.words": [
+        "autotune",
+        "autotuning",
+        "benchbase",
+        "codespace",
+        "Codespaces",
+        "devcontainer",
+        "ipynb",
+        "llamatune",
+        "MLOS",
+        "tpcc",
+        "VLDB",
+        "workdir"
     ]
 }
