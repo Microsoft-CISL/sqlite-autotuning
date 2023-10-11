@@ -17,7 +17,7 @@
     "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER/",
 
     // What metric to optimize.
-    "optimization_target": "99th Percentile Latency (microseconds)",
+    "optimization_target": "90th Percentile Latency (microseconds)",
     "optimization_direction": "min",
 
     // Which group(s) of tunables to adjust when tuning.

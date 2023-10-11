@@ -22,6 +22,7 @@
                 For demo purposes we run for a very short time.
             <time>60</time>
             -->
+            <warmup>1</warmup>
             <time>10</time>
             <rate>10000</rate>
             <weights>45,43,4,4,4</weights>
