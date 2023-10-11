@@ -43,7 +43,7 @@ There are two items in this example:
 
 ## Start of Class
 
-1. Open the codespace created above
+1. Open the codespace previously created above.
 
 1. Make sure the MLOS dependencies are up to date.
 
