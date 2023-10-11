@@ -1,15 +1,26 @@
+// A set of experiment specific parameters.
+// These can replace the default values in
+// config/environments/apps/sqlite/sqlite-local-benchbase.jsonc config so
+// individual experiments can be run without changing the core configs.
 {
+    // The name of the experiment.
+    // Results will be placed in the workdir/experiment_id/ folder.
     "experiment_id": "sqlite-sync-experiment",
-    "trial_id": 0, // FIXME: testing a bug hypothesis - nope, somehow this gets incremented regardless, but I didn't see how ...
 
-    "workdir": "$PWD/workdir/", // alternatively, use --workdir=$PWD/workdir on the cli
+    "trial_id": 0,  // required
 
+    // Store data in the workdir/ folder relative to the repo root.
+    "workdir": "$PWD/workdir/",
+
+    // Export the devcontainer environment variables to the local experiment scripts.
     "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER/",
     "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER/",
 
-    "optimization_target": "99th Percentile Latency (microseconds)",
+    // What metric to optimize.
+    "optimization_target": "90th Percentile Latency (microseconds)",
     "optimization_direction": "min",
 
+    // Which group(s) of tunables to adjust when tuning.
     "tunable_params_map": {
         // See config/environments/apps/sqlite/sqlite-tunables.jsonc
         "sqlite": [
