@@ -19,16 +19,17 @@ There are two items in this example:
 
 ### Local
 
-- `git`
-- `docker`
-- `vscode`
-- Azure
+- [`git`](https://git-scm.com/downloads)
+- [`docker`](https://docs.docker.com/get-docker/)
+- [`VSCode`](https://code.visualstudio.com/download)
+- [Azure](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) (optional)
   - Subscription ID
   - Resource Group Name
+  - Storage
 
 ## Prior to Class
 
-1. Create a github account if you do not already have one - [Github Account](https://github.com/account)
+1. Create a [github account](https://github.com/account) if you do not already have one.
 1. Open the [project](https://github.com/Microsoft-CISL/sqlite-autotuning/) in your browser.
 
     Navigate to the green **<> Code** drop down at the top of page and select the green **Create codespace on main** button.
@@ -65,12 +66,18 @@ There are two items in this example:
 
 ## Start of Class
 
+> These instructions use the Github Codespaces approach described above.
+
 1. Open the codespace previously created above.
 
     > Note: you can also re-open your codespace in [VSCode](https://code.visualstudio.com/Download) once created if you want to use a local desktop interface.
 
     <!-- markdownlint-disable-next-line MD033 -->
-    <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" alt="open codespace in vscode menu option" />
+    <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" alt="open codespace in VSCode menu option" />
+
+    > Alternatively, you can also `git clone` the [repo](https://github.com/Microsoft-CISL/sqlite-autotuning/) locally and open it in a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) using `VSCode`.
+    > This will automatically pull and setup all the necessary dependencies for you.
+    > For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
 
 1. Make sure the MLOS dependencies are up to date.
 
