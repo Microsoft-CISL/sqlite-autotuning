@@ -27,13 +27,5 @@ docker run -i --rm \
     -v "$reporoot":/src:ro \
     --workdir /src \
     markdown-link-check:latest \
-    find ./doc ./mlos_core ./mlos_bench ./.devcontainer -name '*.md' -not -path './node_modules/*' \
-        -exec markdown-link-check '{}' --config ./.github/workflows/markdown-link-check-config.json -q -v ';'
-
-docker run -i --rm \
-    --user $(id -u):$(id -g) \
-    -v "$reporoot":/src:ro \
-    --workdir /src \
-    markdown-link-check:latest \
-    find . -type f '(' -wholename ./CODE_OF_CONDUCT.md -o -wholename ./CONTRIBUTING.md -o -wholename ./README.md -o -wholename ./SECURITY.md ')' -not -path './node_modules/*' \
+    find ./ -name '*.md' -not -path './node_modules/*' -not -path './MLOS/*' \
         -exec markdown-link-check '{}' --config ./.github/workflows/markdown-link-check-config.json -q -v ';'

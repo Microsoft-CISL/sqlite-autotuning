@@ -5,6 +5,12 @@ This repo is a fork of the [mlos-autotuning-template](https://msgsl.visualstudio
 
 It is meant as a basic demo example for tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results.
 
+There are two items in this example:
+
+1. The [`mlos_storage_demo.ipynb`](./mlos_storage_demo.ipynb) notebook to help explore some existing data collected using the [`mlos_bench`](https://github.com/microsoft/MLOS) tool.
+
+1. Some configs and example commands to use `mlos_bench` to autotune a `sqlite` workload (see below).
+
 ## Prerequisites
 
 ### Codespaces
@@ -127,3 +133,7 @@ It is meant as a basic demo example for tuning a local [`sqlite`](https://www.sq
     To do this, it follows the procedure outlined above, but instead of running a single trial, it runs an optimization loop that runs multiple trials, each time updating the tunable parameters based on the results of the previous trial, balancing exploration and exploitation to find the optimal set of parameters.
 
     <!-- TODO: Add an image depicting what's going on here -->
+
+    > Note: while that's executing you can try exploring other previously collected data using the [`mlos_storage_demo.ipynb`](./mlos_storage_demo.ipynb) notebook.
+
+1. Use the [`mlos_sqlite_demo.ipynb`](./mlos_sqlite_demo.ipynb) notebook to analyze the results.

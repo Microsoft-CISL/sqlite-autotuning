@@ -24,7 +24,7 @@ An `Environment` can represent something like a local script execution, fileshar
 
 This is where `Tunables` get assigned, benchmarks run, and results collected.
 
-`Environment` configs usually start with a [`root`](./environments/root/) config which is a `CompositeEnvironment` that defines a tree of other `Environments`.
+`Environment` configs usually start with a "root" config which is a `CompositeEnvironment` that defines a tree of other `Environments`.
 
 ## [`services`](./services/)
 
