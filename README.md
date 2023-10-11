@@ -8,11 +8,16 @@ It is meant as an demo/example for tuning sqlite.
 
 ### Codespaces
 
-- *Nothing!*
+- *None!*
 
-  Just open the project in your browser via Github CodeSpaces using the Code drop down at the top of this page :)
+  Just open the project in your browser via Github Codespaces using the **<> Code** drop down at the top of this page :-)
 
   In that case you can skip to step 5 below.
+
+  <!-- markdownlint-disable-next-line MD033 -->
+  <img src="./doc/images/github-open-in-codespace.png" style="width:500px" />
+
+  > Note: you can also re-open a codespace in your local VSCode instance once created.
 
 ### Local
 
@@ -31,15 +36,22 @@ It is meant as an demo/example for tuning sqlite.
 
     > For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
 
-4. Reopen the workspace.
+4. Reopen the workspace (if prompted).
 
-    - Browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
+    <!-- markdownlint-disable-next-line MD033 -->
+    <img src="./doc/images/codespace-open-workspace.png" style="width:500px" />
 
-5. Activate the conda environment in the integrated terminal:
+    > Note: you can trigger the prompt by browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
+
+
+5. Activate the conda environment in the integrated terminal (lower panel):
 
     ```sh
     conda activate mlos
     ```
+
+    <!-- markdownlint-disable-next-line MD033 -->
+    <img src="./doc/images/codespace-terminal.png" style="width:500px" />
 
 6. Run the `mlos_bench` tool.
 
