@@ -26,5 +26,5 @@
     "storage": "storage/sqlite.jsonc",
 
     "log_file": "local-sqlite-bench.log",
-    "log_level": "DEBUG"
+    "log_level": "INFO"
 }
