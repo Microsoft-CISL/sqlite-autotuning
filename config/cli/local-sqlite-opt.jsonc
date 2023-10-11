@@ -1,0 +1,31 @@
+//
+// Run with:
+//
+//  mlos_bench --config config/cli/local-sqlite-bench.jsonc \
+//      --globals experiment-sqlite.jsonc \
+//      --max_iterations 10
+//
+{
+    // Where to find additional config files:
+    "config_path": [
+        ".",
+        "config"
+        // Note: upstream config snippets in MLOS/mlos_bench/mlos_bench/config
+        // are automatically added to the search path
+    ],
+
+    // The root Environment config to use for this experiment.
+    "environment": "environments/apps/sqlite/sqlite-local-benchbase.jsonc",
+
+    // In this case we use the default mlos_core optimizer to run a series of
+    // trials for the experiment, testing different tunable values combinations
+    // to try and arrive at a better config.
+    "optimizer": "optimizers/mlos_core_default_opt.jsonc",
+
+    // store all results in a local sqlite database
+    // (see MLOS/mlos_bench/mlos_bench/config/storage/sqlite.jsonc)
+    "storage": "storage/sqlite.jsonc",
+
+    "log_file": "local-sqlite-bench.log",
+    "log_level": "DEBUG"
+}
