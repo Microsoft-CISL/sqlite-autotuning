@@ -27,6 +27,7 @@ There are two items in this example:
   - Resource Group Name
 
 ## Prior to Class
+
 1. Create a github account if you do not already have one - [Github Account](https://github.com/account)
 1. Open the [project](https://github.com/Microsoft-CISL/sqlite-autotuning/tree/main) in your browser.  Navigate to the green **<> Code** drop down at the top of page and select the green **Create codespace on main** button.
     <!-- markdownlint-disable-next-line MD033 -->
@@ -40,9 +41,9 @@ There are two items in this example:
 
 1. **That's it!**  If you run into any issues, please reach out to the teaching team and we can assist prior to class starting.
 
-
 ## Start of Class
-1.  Open the codespace created above
+
+1. Open the codespace created above
 
 1. Make sure the MLOS dependencies are up to date.
 
