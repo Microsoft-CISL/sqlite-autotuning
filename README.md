@@ -17,18 +17,6 @@ There are two items in this example:
 
 - Just a [Github Account](https://github.com/account) :-)
 
-  Open the project in your browser via Github Codespaces using the **<> Code** drop down at the top of this page.
-
-  In that case you can skip to step 5 below.
-
-  <!-- markdownlint-disable-next-line MD033 -->
-  <img src="./doc/images/github-open-in-codespace.png" style="width:500px" />
-
-  > Note: you can also re-open your codespace in [VSCode](https://code.visualstudio.com/Download) once created if you want to use a local desktop interface.
-
-    <!-- markdownlint-disable-next-line MD033 -->
-    <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" />
-
 ### Local
 
 - `git`
@@ -38,22 +26,23 @@ There are two items in this example:
   - Subscription ID
   - Resource Group Name
 
-## Getting Started
-
-1. Clone this repository.
-1. Open this repository in VSCode.
-1. Reopen in a devcontainer.
-
-    > This will automatically pull and setup all the necessary dependencies for you.
-    <!-- -->
-    > For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
+## Prior to Class
+1. Create a github account if you do not already have one - [Github Account](https://github.com/account)
+1. Open the [project](https://github.com/Microsoft-CISL/sqlite-autotuning/tree/main) in your browser.  Navigate to the green **<> Code** drop down at the top of page and select the green **Create codespace on main** button.
+    <!-- markdownlint-disable-next-line MD033 -->
+    <img src="./doc/images/github-open-in-codespace.png" style="width:500px" />
 
 1. Reopen the workspace (if prompted).
-
     <!-- markdownlint-disable-next-line MD033 -->
     <img src="./doc/images/codespace-open-workspace.png" style="width:500px" />
 
-    > Note: you can trigger the prompt by browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
+   > Note: you can trigger the prompt by browse to the [`mlos-autouning.code-workspace`](./mlos-autotuning.code-workspace) file and follow the prompt in the lower right to reopen.
+
+1. **That's it!**  If you run into any issues, please reach out to the teaching team and we can assist prior to class starting.
+
+
+## Start of Class
+1.  Open the codespace created above
 
 1. Make sure the MLOS dependencies are up to date.
 
