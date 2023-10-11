@@ -56,7 +56,7 @@
             "LOCAL_WORKSPACE_FOLDER"
         ],
         "setup": [
-            "mkdir -p $workdir/$experiment_id/$trial_id",
+            "mkdir -p \"$workdir/$experiment_id/$trial_id\"",
             // Create the config file for the trial based on the tunable values
             // that were dumped to a file above.
             "environments/apps/sqlite/scripts/local/prepare_server_config.py sample_${BENCHBASE_BENCHMARK}_config.xml sqlite-tunable-values.json \"$workdir/$experiment_id/$trial_id/config_$BENCHBASE_BENCHMARK.xml\"",
@@ -65,7 +65,7 @@
             "environments/apps/sqlite/scripts/remote/prepare-workload.sh \"$workdir/$experiment_id/$trial_id\""
         ],
         "run": [
-            "mkdir -p $workdir/$experiment_id/$trial_id",
+            "mkdir -p \"$workdir/$experiment_id/$trial_id\"",
 
             // Run the workload.
             // Normally this would happen in a separate remote environment, but
