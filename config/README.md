@@ -26,13 +26,21 @@ This is where `Tunables` get assigned, benchmarks run, and results collected.
 
 `Environment` configs usually start with a "root" config which is a `CompositeEnvironment` that defines a tree of other `Environments`.
 
+## [`optimizers`](./optimizers/)
+
+An `Optimizer` config can be optionally referenced in the `cli` config.
+
+Each `Optimizer` config can optionally control additional features about an experiment like which backend optimizer to use (e.g., FLAML, SMAC3, etc.), the target objective(s) to optimize, and what direction to optimize them (e.g., minimize or maximize).
+
+Some of these settings can also be set in the `--globals` config files in order to more flexibly control such settings from the [`experiments`](./experiments/) configs.
+
 ## [`services`](./services/)
 
-A `Service` is an abstraction for providing some functionality that an environment might need.
+A `Service` is an abstraction for providing some functionality that an Environment might need.
 
 For instance, `remote_exec`, `local_exec`, `upload`, `download`, etc.
 
-Some services require additional configuration, such as a fileshare name, whereas others only require to be registered as usable by the `Environment(s)` at that level.
+Some Services require additional configuration, such as a fileshare name, whereas others only require to be registered as usable by the `Environment(s)` at that level.
 
 ## [`storage`](./storage/)
 

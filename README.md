@@ -18,9 +18,13 @@ The results you obtain during this workshop should look similar to what we have 
 
 ## Prerequisites
 
+There are two options:
+
 ### Codespaces
 
 - Just a [Github Account](https://github.com/account) :-)
+
+> For the class, this is the preferred method.
 
 ### Local
 
@@ -45,7 +49,7 @@ The results you obtain during this workshop should look similar to what we have 
     <!-- markdownlint-disable-next-line MD033 -->
     <img src="./doc/images/codespace-open-workspace.png" style="width:500px" alt="open workspace prompt" />
 
-    > Note: you can trigger the prompt by browsing to the [`mlos-autotuning.code-workspace`](./mlos-autotuning.code-workspace) file and following the prompt in the lower right to reopen.
+    Note: you can trigger the prompt by browsing to the [`mlos-autotuning.code-workspace`](./mlos-autotuning.code-workspace) file and following the prompt in the lower right to reopen.
 
 1. Run the following code in the terminal at the bottom of the page, confirm you get an output back with help text.
 
@@ -82,7 +86,8 @@ The results you obtain during this workshop should look similar to what we have 
 
     > Alternatively, you can also `git clone` the [repo](https://github.com/Microsoft-CISL/sqlite-autotuning/) locally and open it in a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) using `VSCode`.
     > This will automatically pull and setup all the necessary dependencies for you.
-    > For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
+
+    For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
 
 1. Make sure the MLOS dependencies are up to date.
 
@@ -165,9 +170,9 @@ The results you obtain during this workshop should look similar to what we have 
 
     <!-- markdownlint-disable-next-line MD033 -->
     <img src="./doc/images/llamatune-loop.png" style="width:700px" alt="optimization loop" />
-
-    > Source: [LlamaTune: VLDB 2022](https://arxiv.org/abs/2203.05128)
     <!-- -->
-    > Note: while that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
+    > Source: [LlamaTune: VLDB 2022](https://arxiv.org/abs/2203.05128)
+
+    While that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
 
 1. Use the [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb) notebook to analyze the results.
