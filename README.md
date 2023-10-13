@@ -13,9 +13,13 @@ There are two items in this example:
 
 ## Prerequisites
 
+There are two options:
+
 ### Codespaces
 
 - Just a [Github Account](https://github.com/account) :-)
+
+> For the class, this is the preferred method.
 
 ### Local
 
