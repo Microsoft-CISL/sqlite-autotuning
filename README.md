@@ -5,9 +5,14 @@ This repo is a fork of the [mlos-autotuning-template](https://msgsl.visualstudio
 
 It is meant as a basic demo example for tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results.
 
-There are two items in this example:
+There are several items in this example:
 
-1. The [`mlos_storage_demo.ipynb`](./mlos_storage_demo.ipynb) notebook to help explore some existing data collected using the [`mlos_bench`](https://github.com/microsoft/MLOS) tool.
+1. [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb): This is your workbook for this class. Use it to analyze the data from running [`mlos_bench`](https://github.com/microsoft/MLOS) to find a better SQLite configuration.
+
+1. [`mlos_demo_sqlite_teachers.ipynb`](./mlos_demo_sqlite_teachers.ipynb): Here we analyze the data from running 100 trials of [`mlos_bench`](https://github.com/microsoft/MLOS) for SQLite optimization.
+The results you obtain during this workshop should look similar to what we have in this notebook.
+
+1. [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb): This notebook explores some existing data that we've collected with the [`mlos_bench`](https://github.com/microsoft/MLOS) tool while optimizing MySQL Server on Azure.
 
 1. Some configs and example commands to use `mlos_bench` to autotune a `sqlite` workload (see below).
 
@@ -168,6 +173,6 @@ There are two options:
 
     > Source: [LlamaTune: VLDB 2022](https://arxiv.org/abs/2203.05128)
 
-    While that's executing you can try exploring other previously collected data using the [`mlos_storage_demo.ipynb`](./mlos_storage_demo.ipynb) notebook.
+    While that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
 
-1. Use the [`mlos_sqlite_demo.ipynb`](./mlos_sqlite_demo.ipynb) notebook to analyze the results.
+1. Use the [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb) notebook to analyze the results.

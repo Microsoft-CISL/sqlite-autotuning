@@ -1,8 +1,8 @@
 // TODO: break these up into separate environments to mirror the local vs.
 // remote bits we usually have?
 {
-    "name": "sqlite-local-benchbase",
-    "description": "A local only environment for running/tuning sqlite via benchbase.",
+    "name": "SQLite3 BenchBase Local",
+    "description": "A local-only environment for benchmarking and tuning SQLite via BenchBase.",
 
     "class": "mlos_bench.environments.local.LocalEnv",
     "include_tunables": ["environments/apps/sqlite/sqlite-tunables.jsonc"],
