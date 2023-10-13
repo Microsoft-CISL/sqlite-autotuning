@@ -170,7 +170,7 @@ There are two options:
 
     <!-- markdownlint-disable-next-line MD033 -->
     <img src="./doc/images/llamatune-loop.png" style="width:700px" alt="optimization loop" />
-    <!-- -->
+
     > Source: [LlamaTune: VLDB 2022](https://arxiv.org/abs/2203.05128)
 
     While that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
