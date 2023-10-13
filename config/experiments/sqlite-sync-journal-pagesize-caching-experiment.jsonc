@@ -5,7 +5,7 @@
 {
     // The name of the experiment.
     // Results will be placed in the workdir/experiment_id/ folder.
-    "experiment_id": "sqlite-sync-journal-pagesize-caching-experiment",
+    "experiment_id": "sqlite-opt-demo",
 
     "trial_id": 0,  // required
 
