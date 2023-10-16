@@ -255,9 +255,7 @@ Here's a short list of some tips/tricks of things to try in case you encounter s
 
 Here are some additional sources of information:
 
-- [MLOS](https://github.com/microsoft/MLOS)
-
-    The main MLOS repo.
+- [MLOS](https://github.com/microsoft/MLOS) - the main repo for the `mlos_bench` tool.
 
 ### Data Science APIs
 
