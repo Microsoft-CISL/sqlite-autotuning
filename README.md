@@ -19,8 +19,11 @@ It is meant as a basic class demo and example of tuning a local [`sqlite`](https
         - [Prior to Class](#prior-to-class)
         - [Start of Class](#start-of-class)
     - [Using mlos_bench](#using-mlos_bench)
+<<<<<<< HEAD
     - [Analyzing the Results](#analyzing-the-results)
     - [Troubleshooting](#troubleshooting)
+=======
+>>>>>>> main
     - [See Also](#see-also)
         - [Data Science APIs](#data-science-apis)
 
