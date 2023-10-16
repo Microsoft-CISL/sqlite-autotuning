@@ -19,6 +19,8 @@ It is meant as a basic class demo and example of tuning a local [`sqlite`](https
         - [Prior to Class](#prior-to-class)
         - [Start of Class](#start-of-class)
     - [Using mlos_bench](#using-mlos_bench)
+    - [Analyzing the Results](#analyzing-the-results)
+    - [Troubleshooting](#troubleshooting)
     - [See Also](#see-also)
         - [Data Science APIs](#data-science-apis)
 
@@ -219,7 +221,35 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
 
     While that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
 
+## Analyzing the Results
+
 1. Use the [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb) notebook to analyze the results.
+
+    To do this, you may need to activate the appropriate python kernel in the Jupyter notebook environment.
+
+    1. Select `Python Environments` from the `Select Kernel` menu in the upper right of the notebook:
+
+        <!-- markdownlint-disable-next-line MD033 -->
+        <img src="./doc/images/select-python-kernel.png" style="width:500px" alt="jupyter select kernel menu" />
+
+    2. Select `mlos` from the options listed:
+
+        <!-- markdownlint-disable-next-line MD033 -->
+        <img src="./doc/images/select-mlos-kernel.png" style="width:500px" alt="jupyter select mlos kernel" />
+
+## Troubleshooting
+
+Here's a short list of some tips/tricks of things to try in case you encounter some issues during the demo:
+
+- If the "Select Kernels" menu is hanging during the notebook steps,
+
+    Or, if the `mlos_bench --help` step returns a `command not found` error,
+
+    Then, try to
+
+    1. Update and/or restart VSCode
+    2. Restart your codespace
+
 
 ## See Also
 
