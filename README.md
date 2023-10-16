@@ -1,42 +1,86 @@
 # MLOS Autotuning for Sqlite Repo
 
 This repo is a fork of the [mlos-autotuning-template](https://msgsl.visualstudio.com/MLOS/_git/mlos-autotuning-template) repo.
-<!-- TODO: Open source that template repo and update the link. -->
 
-It is meant as a basic demo example for tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results.
+It is meant as a basic class demo and example of tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results using [MLOS](https://github.com/microsoft/MLOS), a framework to help benchmark and automate systems tuning.
+
+## Contents
+
+<!-- TOC -->
+
+- [MLOS Autotuning for Sqlite Repo](#mlos-autotuning-for-sqlite-repo)
+    - [Contents](#contents)
+    - [Background](#background)
+    - [Overview](#overview)
+    - [Setup](#setup)
+        - [Prerequisites](#prerequisites)
+            - [Codespaces](#codespaces)
+            - [Local](#local)
+        - [Prior to Class](#prior-to-class)
+        - [Start of Class](#start-of-class)
+    - [Using mlos_bench](#using-mlos_bench)
+    - [See Also](#see-also)
+        - [Data Science APIs](#data-science-apis)
+
+<!-- /TOC -->
+
+## Background
+
+Systems tuning is a difficult and time consuming task, yet more and more necessary as the complexity of cloud systems and all of their varied choices, different deployment environments, and myriad of workloads grows.
+With it, we can reduce cost, improve performance, lower carbon footprint, improve reliability, etc., by fitting the system to the workload and its execution environment, tuning everything from VM size, to OS parameters, to application configurations.
+
+To mitigate risk to production systems, we often employ offline exploration of this large parameter space to find a better config.
+Benchmarks are needed to exercise the system, many parameter combinations should be tried, and data collected and compared.
+This process has traditionally been done manually, which is both time consuming and error prone.
+Noise in the cloud further makes it less reproducible.
+
+The goal of autotuning systems like [MLOS](https://github.com/microsoft/MLOS) are to use automation and data driven techniques to help reduce the burden of this task and make it more approachable for many different systems and workloads in order to help bring the vision of an autonomous instance optimized cloud closer to reality.
+
+## Overview
 
 There are several items in this example:
 
-1. [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb): This is your workbook for this class. Use it to analyze the data from running [`mlos_bench`](https://github.com/microsoft/MLOS) to find a better SQLite configuration.
+1. Some configs and [example commands](#using-mlos_bench) to use `mlos_bench` to autotune a `sqlite` workload ([see below](#using-mlos_bench)).
 
-1. [`mlos_demo_sqlite_teachers.ipynb`](./mlos_demo_sqlite_teachers.ipynb): Here we analyze the data from running 100 trials of [`mlos_bench`](https://github.com/microsoft/MLOS) for SQLite optimization.
-The results you obtain during this workshop should look similar to what we have in this notebook.
+    These can be run in the background while you explore the data in some of the other notebooks.
 
-1. [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb): This notebook explores some existing data that we've collected with the [`mlos_bench`](https://github.com/microsoft/MLOS) tool while optimizing MySQL Server on Azure.
+1. [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb)
 
-1. Some configs and example commands to use `mlos_bench` to autotune a `sqlite` workload (see below).
+    This is your workbook for this demo.
+    Use it to analyze the data from running [`mlos_bench`](https://github.com/microsoft/MLOS) to find a better SQLite configuration and help understand what the optimizer found about the performance of that config.
 
-## Prerequisites
+    Initially, there won't be much data here to work with, until the commands from the loop in the previous step have run for a short while.
 
-There are two options:
+1. [`mlos_demo_sqlite_teachers.ipynb`](./mlos_demo_sqlite_teachers.ipynb)
 
-### Codespaces
+    Here we analyze the data from running 100 trials of [`mlos_bench`](https://github.com/microsoft/MLOS) for SQLite optimization, as detailed in the instructions below.
+    The results you obtain during this workshop should look similar to what we have in this notebook.
+
+1. [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb)
+
+    This notebook explores some existing data that we've collected with the [`mlos_bench`](https://github.com/microsoft/MLOS) tool while optimizing a MySQL Server on Azure.
+
+    It is meant to familiarize yourself with the data access and visualization APIs while the commands from the first step gather new data for the `sqlite` demo in the background.
+
+## Setup
+
+### Prerequisites
+
+For this demo, we will be using Github's Codespaces feature to provide a pre-configured environment for you to use.
+
+#### Codespaces
 
 - Just a [Github Account](https://github.com/account) :-)
 
-> For the class, this is the preferred method.
+#### Local
 
-### Local
-
-- [`git`](https://git-scm.com/downloads)
-- [`docker`](https://docs.docker.com/get-docker/)
 - [`VSCode`](https://code.visualstudio.com/download)
-- [Azure](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) (optional)
-  - Subscription ID
-  - Resource Group Name
-  - Storage
 
-## Prior to Class
+    For a more pleasant experience, we recommend connecting to the remote codespace using a local instance of VSCode, but it's not required.  You can also just use the web interface.
+
+    > It is also possible to use a local checkout of the code using `git`, `docker`, and a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers), but we omit these instructions for now.
+
+### Prior to Class
 
 1. Create a [github account](https://github.com/account) if you do not already have one.
 1. Open the [project](https://github.com/Microsoft-CISL/sqlite-autotuning/) in your browser.
@@ -73,21 +117,19 @@ There are two options:
 
 1. **That's it!**  If you run into any issues, please reach out to the teaching team and we can assist prior to class starting.
 
-## Start of Class
+### Start of Class
 
 > These instructions use the Github Codespaces approach described above.
 
-1. Open the codespace previously created above.
+1. Open the codespace previously created above by browsing to the green `<> Code` button on the [project repo site](https://github.com/Microsoft-CISL/sqlite-autotuning) as before.
 
-    > Note: you can also re-open your codespace in [VSCode](https://code.visualstudio.com/Download) once created if you want to use a local desktop interface.
+    - Use the "Open in VSCode Desktop" option from the triple bar menu on the left hand side to re-open the codespace in a local [VSCode](https://code.visualstudio.com/Download) instance.
 
     <!-- markdownlint-disable-next-line MD033 -->
     <img src="./doc/images/codespace-open-in-vscode.png" style="width:300px" alt="open codespace in VSCode menu option" />
 
-    > Alternatively, you can also `git clone` the [repo](https://github.com/Microsoft-CISL/sqlite-autotuning/) locally and open it in a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) using `VSCode`.
-    > This will automatically pull and setup all the necessary dependencies for you.
-
-    For additional dev environment details, see the devcontainer [README.md](.devcontainer/README.md)
+    > Note this step is optional, but recommended for a better experience.
+    > You can alternatively stay in the browser interface for the entire demo.
 
 1. Make sure the MLOS dependencies are up to date.
 
@@ -125,6 +167,8 @@ There are two options:
     wget -Nc -O workdir/benchbase/db.bak/tpcc.db https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/tpcc.db
     ```
 
+## Using `mlos_bench`
+
 1. Run the `mlos_bench` tool as a one-shot benchmark.
 
     For instance, to run the sqlite example from the upstream MLOS repo (pulled locally):
@@ -157,10 +201,10 @@ There are two options:
     ```sh
     # Run the optimization loop by referencing a different config file
     # that specifies an optimizer and objective target.
-    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --max-iterations 150
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --max-iterations 100
     ```
 
-    The command above will run the optimization loop for 150 iterations, which should take about 30 minutes since each trial should takes about 12 seconds to run.
+    The command above will run the optimization loop for 100 iterations, which should take about 30 minutes since each trial should takes about 12 seconds to run.
 
     > Note: a 10 second run is not very long evaluation period.  It's used here to keep the demo short, but in practice you would want to run for longer to get more accurate results.
 
@@ -176,3 +220,17 @@ There are two options:
     While that's executing you can try exploring other previously collected data using the [`mlos_demo_mysql.ipynb`](./mlos_demo_mysql.ipynb) notebook.
 
 1. Use the [`mlos_demo_sqlite.ipynb`](./mlos_demo_sqlite.ipynb) notebook to analyze the results.
+
+## See Also
+
+Here are some additional sources of information:
+
+- [MLOS](https://github.com/microsoft/MLOS)
+
+    The main MLOS repo.
+
+### Data Science APIs
+
+- [`matplotlib` for Beginners](https://matplotlib.org/cheatsheets/handout-beginner.pdf)
+- [`pandas` `Dataframe` Overview](https://www.w3schools.com/python/pandas/pandas_dataframes.asp)
+- [`seaborn` Scatterplots](https://www.golinuxcloud.com/seaborn-scatterplot/)
