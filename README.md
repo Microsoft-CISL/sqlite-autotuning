@@ -133,6 +133,15 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
     > Note this step is optional, but recommended for a better experience.
     > You can alternatively stay in the browser interface for the entire demo.
 
+1. Make sure the local repo is up to date.
+
+    > To be executed in the integrated terminal at the bottom of the VSCode window:
+
+    ```sh
+    # Pull the latest sqlite-autotuning demo code.
+    git pull
+    ```
+
 1. Make sure the MLOS dependencies are up to date.
 
     > To be executed in the integrated terminal at the bottom of the VSCode window:
@@ -249,7 +258,6 @@ Here's a short list of some tips/tricks of things to try in case you encounter s
 
     1. Update and/or restart VSCode
     2. Restart your codespace
-
 
 ## See Also
 
