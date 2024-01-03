@@ -121,7 +121,7 @@
         "--experimental"
     ],
     "[python]": {
-        "editor.defaultFormatter": "ms-python.python",
+        "editor.defaultFormatter": "ms-python.autopep8",
         "editor.formatOnSave": true,
         "editor.formatOnSaveMode": "modifications"
     },
