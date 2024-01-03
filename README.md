@@ -1,6 +1,6 @@
 # MLOS Autotuning for Sqlite Repo
 
-This repo is a fork of the [mlos-autotuning-template](https://msgsl.visualstudio.com/MLOS/_git/mlos-autotuning-template) repo.
+This repo is a fork of the [mlos-autotuning-template](https://github.com/microsoft/mlos-autotuning-template) repo.
 
 It is meant as a basic class demo and example of tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results using [MLOS](https://github.com/microsoft/MLOS), a framework to help benchmark and automate systems tuning.
 
