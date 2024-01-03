@@ -13,8 +13,8 @@
     "workdir": "$PWD/workdir/",
 
     // Export the devcontainer environment variables to the local experiment scripts.
-    "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER/",
-    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER/",
+    "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER",
+    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER",
 
     // What metric to optimize.
     "optimization_target": "90th Percentile Latency (microseconds)",
