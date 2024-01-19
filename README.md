@@ -212,7 +212,7 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
     ```sh
     # Run the optimization loop by referencing a different config file
     # that specifies an optimizer and objective target.
-    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --max-iterations 100
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --trial-config-repeat-count 3 --max-iterations 100
     ```
 
     The command above will run the optimization loop for 100 iterations, which should take about 30 minutes since each trial should takes about 12 seconds to run.
