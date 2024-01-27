@@ -25,7 +25,6 @@
     "trial_config_repeat_count": 3,
 
     // store all results in a local sqlite database
-    // (see MLOS/mlos_bench/mlos_bench/config/storage/sqlite.jsonc)
     "storage": "storage/sqlite.jsonc",
 
     "log_file": "local-sqlite-bench.log",

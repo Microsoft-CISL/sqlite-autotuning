@@ -40,7 +40,7 @@
             },
             "journal_size_limit": {
                 "description": "https://www.sqlite.org/pragma.html#pragma_journal_size_limit",
-                // TODO: Use log scale here.
+                // Use log scale here.
                 // Alt: specify explicit values to try via categorical.
                 "type": "int",
                 "default": -1,
