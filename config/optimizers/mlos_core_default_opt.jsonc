@@ -1,10 +1,17 @@
 // MLOS Core optimizer
 {
-    "$schema": "https://raw.githubusercontent.com/microsoft/MLOS/main/mlos_bench/mlos_bench/config/schemas/optimizers/optimizer-schema.json",
-
     "class": "mlos_bench.optimizers.MlosCoreOptimizer",
 
     "config": {
+        // Override the default backend optimizer choice:
+        // "optimizer_type": "FLAML",
+        // "optimizer_type": "SMAC",
+
+        // Optionally reduce the high dimension search space using LlamaTune.
+        // "space_adapter_type": "LLAMATUNE",
+
+        // Note: each of these can be overridden by the experiment global config
+        // variables.
         "optimization_target": "99th Percentile Latency (microseconds)",
         "optimization_direction": "min",
         "max_iterations": 100

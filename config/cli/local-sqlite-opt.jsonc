@@ -15,16 +15,28 @@
     ],
 
     // The root Environment config to use for this experiment.
+    // An Environment can represent an server application, where it runs, the client
+    // workload exercising it and possible groups of tunables associated with it.
     "environment": "environments/apps/sqlite/sqlite-local-benchbase.jsonc",
+
+    // Services to provide environment functionality.
+    "services": [
+        "services/local-exec-service.jsonc"
+    ],
 
     // In this case we use the default mlos_core optimizer to run a series of
     // trials for the experiment, testing different tunable values combinations
     // to try and arrive at a better config.
+    // Omitting an optimizer config will run a single trial with the default tunable
+    // values or an explicit set, if provided.
     "optimizer": "optimizers/mlos_core_default_opt.jsonc",
 
+    // Each config can be repeated for a number of trials to help account for noise
+    // in the system.
     "trial_config_repeat_count": 3,
 
-    // store all results in a local sqlite database
+    // Store all results in a local sqlite database or specify an alternative config
+    // to direct the results elsewhere.
     "storage": "storage/sqlite.jsonc",
 
     "log_file": "local-sqlite-bench.log",
