@@ -8,7 +8,8 @@
         // "optimizer_type": "SMAC",
 
         // Optionally reduce the high dimension search space using LlamaTune.
-        // "space_adapter_type": "LLAMATUNE",
+        //"space_adapter_type": "LLAMATUNE",
+        // "space_adapter_type": null,
 
         // Note: each of these can be overridden by the experiment global config
         // variables.
