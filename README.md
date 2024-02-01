@@ -189,13 +189,13 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
     ```sh
     # Run the one-shot benchmark.
     # This will run a single experiment trial and output the results to the local results database.
-    mlos_bench --config "./config/cli/local-sqlite-bench.jsonc" --globals "./config/experiments/sqlite-sync-experiment.jsonc"
+    mlos_bench --config "./config/cli/local-sqlite-bench.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc"
     ```
 
     This should take a few minutes to run and does the following:
 
     - Loads the CLI config [`./config/cli/local-sqlite-bench.jsonc`](./config/cli/local-sqlite-bench.jsonc)
-        - The [`config/experiments/sqlite-sync-experiment.jsonc`](./config/experiments/sqlite-sync-experiment.jsonc) further customizes that config with the experiment specific parameters (e.g., telling it which tunable parameters to use for the experiment, the experiment name, etc.).
+        - The [`config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc`](./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc) further customizes that config with the experiment specific parameters (e.g., telling it which tunable parameters to use for the experiment, the experiment name, etc.).
 
             Alternatively, Other config files from the [`config/experiments/`](./config/experiments/) directory can be referenced with the `--globals` argument as well in order to customize the experiment.
     - The CLI config also references and loads the root environment config [`./config/environments/apps/sqlite/sqlite-local-benchbase.jsonc`](./config/environments/apps/sqlite/sqlite-local-benchbase.jsonc).
@@ -212,7 +212,7 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
     ```sh
     # Run the optimization loop by referencing a different config file
     # that specifies an optimizer and objective target.
-    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --max-iterations 100
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --trial-config-repeat-count 3 --max-iterations 100
     ```
 
     The command above will run the optimization loop for 100 iterations, which should take about 30 minutes since each trial should takes about 12 seconds to run.

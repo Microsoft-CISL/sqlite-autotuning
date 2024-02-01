@@ -5,26 +5,27 @@
 {
     // The name of the experiment.
     // Results will be placed in the workdir/experiment_id/ folder.
-    "experiment_id": "sqlite-sync-experiment",
+    "experiment_id": "sqlite-opt-demo-default-sync",
 
-    "trial_id": 0,  // required
+    // Which group(s) of tunables to adjust when tuning.
+    "tunable_params_map": {
+        // See config/environments/apps/sqlite/sqlite-tunables.jsonc
+        "sqlite": [
+            //"sqlite-sync",
+            "sqlite-journal",
+            "sqlite-page-size",
+            "sqlite-cache"
+        ]
+    },
+
+    // What metric to optimize.
+    "optimization_target": "90th Percentile Latency (microseconds)",
+    "optimization_direction": "min",
 
     // Store data in the workdir/ folder relative to the repo root.
     "workdir": "$PWD/workdir/",
 
     // Export the devcontainer environment variables to the local experiment scripts.
     "CONTAINER_WORKSPACE_FOLDER": "$CONTAINER_WORKSPACE_FOLDER",
-    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER",
-
-    // What metric to optimize.
-    "optimization_target": "90th Percentile Latency (microseconds)",
-    "optimization_direction": "min",
-
-    // Which group(s) of tunables to adjust when tuning.
-    "tunable_params_map": {
-        // See config/environments/apps/sqlite/sqlite-tunables.jsonc
-        "sqlite": [
-            "sqlite-sync"
-        ]
-    }
+    "LOCAL_WORKSPACE_FOLDER": "$LOCAL_WORKSPACE_FOLDER"
 }

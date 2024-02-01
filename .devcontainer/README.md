@@ -16,7 +16,7 @@ To begin, we reuse the devcontainer published from the MLOS repo.
 
 Next, we add a copy of the `MLOS` repo itself to this one during the devcontainer startup and make sure it is pip (editable) installed.
 
-> MLOS is not yet in pypi, so this is another part of why we currently do it this way.
+> ~~MLOS is not yet in pypi, so this is another part of why we currently do it this way.~~
 
 ## General Usage
 
