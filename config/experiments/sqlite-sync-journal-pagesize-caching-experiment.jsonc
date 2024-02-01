@@ -5,7 +5,7 @@
 {
     // The name of the experiment.
     // Results will be placed in the workdir/experiment_id/ folder.
-    "experiment_id": "sqlite-opt-demo-1",
+    "experiment_id": "sqlite-opt-demo",
 
     // Which group(s) of tunables to adjust when tuning.
     "tunable_params_map": {
