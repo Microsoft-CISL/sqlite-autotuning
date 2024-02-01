@@ -12,6 +12,7 @@ It is meant as a basic class demo and example of tuning a local [`sqlite`](https
     - [Contents](#contents)
     - [Background](#background)
     - [Overview](#overview)
+      - [Video](#video)
     - [Setup](#setup)
         - [Prerequisites](#prerequisites)
             - [Codespaces](#codespaces)
@@ -63,6 +64,12 @@ There are several items in this example:
     This notebook explores some existing data that we've collected with the [`mlos_bench`](https://github.com/microsoft/MLOS) tool while optimizing a MySQL Server on Azure.
 
     It is meant to familiarize yourself with the data access and visualization APIs while the commands from the first step gather new data for the `sqlite` demo in the background.
+
+### Video
+
+You can see a brief example demo of this tool in the following [video](https://aka.ms/MLOS/demo-video):
+
+[![demo video](https://aka.ms/MLOS/demo-video-preview-image)](https://aka.ms/MLOS/demo-video)
 
 ## Setup
 
