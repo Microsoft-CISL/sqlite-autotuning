@@ -1,3 +1,6 @@
+# Ignore git directory (ripgrep)
+.git/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -153,6 +156,14 @@ cython_debug/
 
 # Ignore local scope azure config files.
 .azure/
+
+.vs/
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.devcontainer/build/
+!.devcontainer/scripts/
 
 # Ignore smac output directories.
 smac_output/
