@@ -162,4 +162,5 @@ tmp/
 workdir/
 # Ignore linked confs.
 .pylintrc
+pyproject.toml
 setup.cfg

@@ -26,9 +26,9 @@
     "postCreateCommand": {
         "updateRepo": "git pull || true",
         "updateMlos": "git -C MLOS pull || true",
-        "linkStyleConfs": "for i in .pylintrc setup.cfg; do ln -sfn MLOS/$i ./; done",
-        "fetchResultsDb": "test -f mlos_bench.sqlite || wget -Nc https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/mlos_bench.sqlite",
-        "fetchTpccDb": "mkdir -p workdir/benchbase/db.bak && wget -Nc -O workdir/benchbase/db.bak/tpcc.db https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/tpcc.db",
+        "linkStyleConfs": "for i in pyproject.toml setup.cfg; do ln -sfn MLOS/$i ./; done",
+        "fetchResultsDb": "test -f mlos_bench.sqlite || wget -Nc https://mlospublic.blob.core.windows.net/public-data/sqlite-autotuning/mlos_bench.sqlite",
+        "fetchTpccDb": "mkdir -p workdir/benchbase/db.bak && wget -Nc -O workdir/benchbase/db.bak/tpcc.db https://mlospublic.blob.core.windows.net/public-data/sqlite-autotuning/tpcc.db",
         "updateEnv": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml && conda run -n mlos pip install -U -r requirements.txt"
     },
     // Various mounting, run, post-create, and user settings
