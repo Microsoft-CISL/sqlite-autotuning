@@ -162,8 +162,11 @@ cython_debug/
 !.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/launch.json
+
+!.devcontainer/
 !.devcontainer/build/
 !.devcontainer/scripts/
+.devcontainer/tmp/
 
 # Ignore smac output directories.
 smac_output/
@@ -175,3 +178,6 @@ workdir/
 .pylintrc
 pyproject.toml
 setup.cfg
+
+# vim swap files
+.*.swp
