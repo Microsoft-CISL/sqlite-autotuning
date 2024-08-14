@@ -1,0 +1,6 @@
+# devcontainer launching
+
+- create/launch devcontainer-cli as user
+- map docker into it
+- use it to build/create the actual devcontainer
+- make sure to map ssh keys/auth/etc. in so `git pull` commands work
