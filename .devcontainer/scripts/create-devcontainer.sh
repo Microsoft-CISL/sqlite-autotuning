@@ -30,9 +30,12 @@ else
 fi
 
 if [ "${FORCE:-}" == 'true' ]; then
-docker rm --force $container_name
+    docker rm --force $container_name
 fi
 
+# Use explicit docker create since the `devcontainer create` command
+# has some issues both with nested containers and in its ability to
+# start in the background.
 set -x
 mkdir -p "/tmp/$container_name/dc/shellhistory"
 docker create \
@@ -55,4 +58,11 @@ docker create \
 
 docker start $container_name
 
-# TODO: Run the devcontainer startup scripts in the $container_name
+# Run the devcontainer startup scripts in the container we started.
+docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v $repo_root:$repo_root \
+    --workdir "$repo_root" \
+    --user $(id -u):$docker_gid \
+    devcontainer-cli:uid-$(id -u) \
+    devcontainer set-up --container-id $container_name
