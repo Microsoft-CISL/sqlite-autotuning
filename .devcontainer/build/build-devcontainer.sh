@@ -15,18 +15,10 @@ cd "$scriptdir/"
 container_name="$repo_name.$(stat -c%i "$repo_root/")"
 
 DEVCONTAINER_IMAGE="devcontainer-cli:uid-$(id -u)"
-MLOS_DEVCONTAINER_IMAGE="mloscore.azurecr.io/mlos-devcontainer:latest"
 MLOS_AUTOTUNING_IMAGE="mlos-devcontainer:$container_name"
 
-# Get the helper container that has the devcontainer CLI tool for building the devcontainer.
-NO_CACHE="${NO_CACHE:-}" ./build-devcontainer-cli.sh
-
-if [ "${NO_CACHE:-}" == 'true' ]; then
-    # Also update the cache of the base image.
-    tmpdir=$(mktemp -d)
-    docker --config="$tmpdir" pull $MLOS_DEVCONTAINER_IMAGE || true
-    rmdir "$tmpdir"
-fi
+# Build the helper container that has the devcontainer CLI for building the devcontainer.
+NO_CACHE=${NO_CACHE:-} ./build-devcontainer-cli.sh
 
 DOCKER_GID=$(stat -c'%g' /var/run/docker.sock)
 # Make this work inside a devcontainer as well.
@@ -49,6 +41,19 @@ else
     eval "pushd "$rootdir/"; $initializeCommand; popd"
 fi
 
+devcontainer_build_args=''
+if [ "${NO_CACHE:-}" == 'true' ]; then
+    base_image=$(grep '^FROM ' "$rootdir/.devcontainer/Dockerfile" | sed -e 's/^FROM //' -e 's/ AS .*//' | head -n1)
+    docker pull "$base_image" || true
+    devcontainer_build_args='--no-cache'
+else
+    cache_from='mloscore.azurecr.io/mlos-devcontainer:latest'
+    devcontainer_build_args="--cache-from $cache_from --cache-from mlos-devcontainer:latest"
+    tmpdir=$(mktemp -d)
+    docker --config="$tmpdir" pull "$cache_from" || true
+    rmdir "$tmpdir"
+fi
+
 # Make this work inside a devcontainer as well.
 if [ -n "${LOCAL_WORKSPACE_FOLDER:-}" ]; then
     rootdir="$LOCAL_WORKSPACE_FOLDER"
@@ -65,4 +70,5 @@ docker run -i --rm \
     --env no_proxy=${no_proxy:-} \
     $DEVCONTAINER_IMAGE \
     devcontainer build --workspace-folder /src \
+        $devcontainer_build_args \
         --image-name $MLOS_AUTOTUNING_IMAGE
