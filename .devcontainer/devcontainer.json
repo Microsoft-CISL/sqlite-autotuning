@@ -16,7 +16,7 @@
     // Make sure the container user can read/write to the package caches.
     "onCreateCommand": {
         // Make the localWorkspaceFolder available.
-        "symlinkDirs": "sudo -n mkdir -p \"`dirname '${localWorkspaceFolder}'`\" && sudo -n ln -sfn \"${containerWorkspaceFolder}\" \"${localWorkspaceFolder}\"",
+        "symlinkDirs": "(sudo -n mkdir -p \"$(dirname \"${localWorkspaceFolder}\")\" && sudo -n ln -sfn \"${containerWorkspaceFolder}\" \"${localWorkspaceFolder}\")",
         // Make sure the container user can read/write to the package caches.
         "fixCachePerms": "sudo -n mkdir -p /opt/conda/pkgs/cache /var/cache/pip && sudo -n chown -R vscode /opt/conda/pkgs/cache /var/cache/pip",
         // Try to make sure the github ssh key is added to the knownhosts file to avoid prompting during scripted operations later on.

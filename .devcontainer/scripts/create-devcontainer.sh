@@ -43,12 +43,15 @@ docker create \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$workspace_root":"/workspaces/$repo_name" \
     --workdir "/workspaces/$repo_name" \
+    --env containerWorkspaceFolder="/workspaces/$repo_name" \
     --env CONTAINER_WORKSPACE_FOLDER="/workspaces/$repo_name" \
+    --env localWorkspaceFolder="$workspace_root" \
     --env LOCAL_WORKSPACE_FOLDER="$workspace_root" \
     --env http_proxy="${http_proxy:-}" \
     --env https_proxy="${https_proxy:-}" \
     --env no_proxy="${no_proxy:-}" \
-    mlos-devcontainer:$container_name
+    mlos-devcontainer:$container_name \
+    /bin/bash -c 'echo "Container starting"; trap "exit 0" 15; while sleep 1 & wait $!; do :; done'
 
 docker start $container_name
 
