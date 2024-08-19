@@ -2,6 +2,9 @@
 {
     "class": "mlos_bench.optimizers.MlosCoreOptimizer",
 
+    // FIXME: https://github.com/microsoft/MLOS/issues/847
+    // Note: these variables can be overridden by the experiment global config variables.
+
     "config": {
         // Override the default backend optimizer choice:
         // "optimizer_type": "FLAML",
@@ -11,10 +14,10 @@
         //"space_adapter_type": "LLAMATUNE",
         // "space_adapter_type": null,
 
-        // Note: each of these can be overridden by the experiment global config
-        // variables.
-        "optimization_target": "99th Percentile Latency (microseconds)",
-        "optimization_direction": "min",
-        "max_iterations": 100
+        "optimization_targets": {
+            "99th Percentile Latency (microseconds)": "min"
+        },
+
+        "max_suggestions": 100
     }
 }
