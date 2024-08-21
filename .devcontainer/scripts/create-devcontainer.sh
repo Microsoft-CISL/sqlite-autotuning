@@ -18,7 +18,7 @@ container_name="$repo_name.$(stat -c%i "$repo_root/")"
 
 test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git
 # FIXME: avoid ssh prompts
-cd MLOS && GIT_TERMINAL_PROMPT=0 git pull && cd ..
+GIT_TERMINAL_PROMPT=0 git -C MLOS pull
 
 # Be sure to use the host workspace folder if available.
 workspace_root=${LOCAL_WORKSPACE_FOLDER:-$repo_root}
