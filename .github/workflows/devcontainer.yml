@@ -42,6 +42,7 @@ jobs:
         set -x
         pwd
         ls -la
+        printenv
         ./.devcontainer/build/build-devcontainer.sh
 
     - name: Create devcontainer
@@ -49,6 +50,7 @@ jobs:
         set -x
         pwd
         ls -la
+        printenv
         ./.devcontainer/scripts/create-devcontainer.sh
 
     - name: Run tests in devcontainer
