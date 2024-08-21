@@ -38,10 +38,18 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build devcontainer image
-      run: ./.devcontainer/build/build-devcontainer.sh
+      run: |
+        set -x
+        pwd
+        ls -la
+        ./.devcontainer/build/build-devcontainer.sh
 
     - name: Create devcontainer
-      run: ./.devcontainer/scripts/create-devcontainer.sh
+      run: |
+        set -x
+        pwd
+        ls -la
+        ./.devcontainer/scripts/create-devcontainer.sh
 
     - name: Run tests in devcontainer
       run: |
