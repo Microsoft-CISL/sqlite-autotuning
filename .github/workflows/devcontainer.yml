@@ -37,20 +37,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Build devcontainer-cli image
+      run: |
+        ./.devcontainer/build/build-devcontainer-cli.sh
+
     - name: Build devcontainer image
       run: |
-        set -x
-        pwd
-        ls -la
-        printenv
         ./.devcontainer/build/build-devcontainer.sh
 
     - name: Create devcontainer
       run: |
-        set -x
-        pwd
-        ls -la
-        printenv
         ./.devcontainer/scripts/create-devcontainer.sh
 
     - name: Run tests in devcontainer

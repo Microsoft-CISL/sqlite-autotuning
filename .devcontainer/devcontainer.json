@@ -33,7 +33,7 @@
         "linkStyleConfs": "set -x; cd \"${containerWorkspaceFolder}\"; for i in pyproject.toml setup.cfg; do ln -sfn MLOS/$i ./; done",
         "fetchResultsDb": "set -x; cd \"${containerWorkspaceFolder}\"; test -f mlos_bench.sqlite || wget -q -Nc https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/mlos_bench.sqlite",
         "fetchTpccDb": "set -x; cd \"${containerWorkspaceFolder}\"; mkdir -p workdir/benchbase/db.bak && wget -q -c -O workdir/benchbase/db.bak/tpcc.db https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/tpcc.db",
-        "updateEnv": "set -x; cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml && conda run -n mlos pip install -U -r ${containerWorkspaceFolder}/requirements.txt"
+        "updateEnv": "set -x; cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update -q --solver=libmamba -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml && conda run -n mlos pip install -U -r ${containerWorkspaceFolder}/requirements.txt"
     },
     // Various mounting, run, post-create, and user settings
     "containerEnv": {

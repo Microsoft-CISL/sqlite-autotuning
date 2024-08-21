@@ -20,6 +20,8 @@ test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git
 # FIXME: avoid ssh prompts
 GIT_TERMINAL_PROMPT=0 git -C MLOS pull
 
+.devcontainer/build/build-devcontainer.sh
+
 # Be sure to use the host workspace folder if available.
 workspace_root=${LOCAL_WORKSPACE_FOLDER:-$repo_root}
 
