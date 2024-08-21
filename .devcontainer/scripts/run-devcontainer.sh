@@ -17,9 +17,9 @@ cd "$repo_root"
 container_name="$repo_name.$(stat -c%i "$repo_root/")"
 
 if ! docker exec $container_name true 2>/dev/null; then
-    ./.devcontainer/scripts/create-devcontainer.sh
+    FORCE="${FORCE:-}" ./.devcontainer/scripts/create-devcontainer.sh
 fi
 
 set -x
-docker exec -it $container_name $*
+docker exec -it "$container_name" $*
 

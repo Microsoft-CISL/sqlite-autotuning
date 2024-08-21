@@ -59,9 +59,9 @@ docker create \
 docker start $container_name
 
 # Run the devcontainer startup scripts in the container we started.
-docker run --rm \
+docker run --rm -i \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $repo_root:$repo_root \
+    -v "$workspace_root":"$repo_root" \
     --workdir "$repo_root" \
     --user $(id -u):$docker_gid \
     devcontainer-cli:uid-$(id -u) \
