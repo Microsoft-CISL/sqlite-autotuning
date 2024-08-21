@@ -51,5 +51,4 @@ jobs:
 
     - name: Run tests in devcontainer
       run: |
-        echo "TODO"
-        false
+        ./.devcontainer/scripts/run-devcontainer.sh scripts/test.sh
