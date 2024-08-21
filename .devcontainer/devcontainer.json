@@ -16,24 +16,24 @@
     // Make sure the container user can read/write to the package caches.
     "onCreateCommand": {
         // Make the localWorkspaceFolder available.
-        "symlinkDirs": "(sudo -n mkdir -p \"$(dirname \"${localWorkspaceFolder}\")\" && sudo -n ln -sfn \"${containerWorkspaceFolder}\" \"${localWorkspaceFolder}\")",
+        "symlinkDirs": "set -x; (sudo -n mkdir -p \"$(dirname \"${localWorkspaceFolder}\")\" && sudo -n ln -sfn \"${containerWorkspaceFolder}\" \"${localWorkspaceFolder}\")",
         // Make sure the container user can read/write to the package caches.
-        "fixCachePerms": "sudo -n mkdir -p /opt/conda/pkgs/cache /var/cache/pip && sudo -n chown -R vscode /opt/conda/pkgs/cache /var/cache/pip",
+        "fixCachePerms": "set -x; sudo -n mkdir -p /opt/conda/pkgs/cache /var/cache/pip && sudo -n chown -R vscode /opt/conda/pkgs/cache /var/cache/pip",
         // Try to make sure the github ssh key is added to the knownhosts file to avoid prompting during scripted operations later on.
-        "primeSshKeys": "mkdir -p /home/vscode/.ssh && (grep -q ^github.com /home/vscode/.ssh/known_hosts || ssh-keyscan github.com | tee -a /home/vscode/.ssh/known_hosts)",
+        "primeSshKeys": "set -x; mkdir -p /home/vscode/.ssh && (grep -q ^github.com /home/vscode/.ssh/known_hosts || ssh-keyscan github.com | tee -a /home/vscode/.ssh/known_hosts)",
         // Add the MLOS repo if it's not already there.
         // FIXME: avoid ssh prompts
-        "cloneMlos": "cd \"${containerWorkspaceFolder}\"; test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git && cd MLOS && GIT_TERMINAL_PROMPT=0 git pull"
+        "cloneMlos": "set -x; cd \"${containerWorkspaceFolder}\"; test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git && cd MLOS && GIT_TERMINAL_PROMPT=0 git pull"
     },
     // Make sure the conda env is up to date with the source tree expectations.
     "postCreateCommand": {
         // FIXME: avoid ssh prompts
-        "updateRepo": "cd \"${containerWorkspaceFolder}\"; ls -la; GIT_TERMINAL_PROMPT=0 git pull || true",
-        "updateMlos": "cd \"${containerWorkspaceFolder}\"; GIT_TERMINAL_PROMPT=0 git -C MLOS pull || true",
-        "linkStyleConfs": "cd \"${containerWorkspaceFolder}\"; for i in pyproject.toml setup.cfg; do ln -sfn MLOS/$i ./; done",
-        "fetchResultsDb": "cd \"${containerWorkspaceFolder}\"; test -f mlos_bench.sqlite || wget -q -Nc https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/mlos_bench.sqlite",
-        "fetchTpccDb": "cd \"${containerWorkspaceFolder}\"; mkdir -p workdir/benchbase/db.bak && wget -q -c -O workdir/benchbase/db.bak/tpcc.db https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/tpcc.db",
-        "updateEnv": "cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml && conda run -n mlos pip install -U -r ${containerWorkspaceFolder}/requirements.txt"
+        "updateRepo": "set -x; cd \"${containerWorkspaceFolder}\"; ls -la; GIT_TERMINAL_PROMPT=0 git pull || true",
+        "updateMlos": "set -x; cd \"${containerWorkspaceFolder}\"; GIT_TERMINAL_PROMPT=0 git -C MLOS pull || true",
+        "linkStyleConfs": "set -x; cd \"${containerWorkspaceFolder}\"; for i in pyproject.toml setup.cfg; do ln -sfn MLOS/$i ./; done",
+        "fetchResultsDb": "set -x; cd \"${containerWorkspaceFolder}\"; test -f mlos_bench.sqlite || wget -q -Nc https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/mlos_bench.sqlite",
+        "fetchTpccDb": "set -x; cd \"${containerWorkspaceFolder}\"; mkdir -p workdir/benchbase/db.bak && wget -q -c -O workdir/benchbase/db.bak/tpcc.db https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/tpcc.db",
+        "updateEnv": "set -x; cd ${containerWorkspaceFolder}/MLOS && /opt/conda/bin/conda env update --solver=libmamba -v -n mlos -f ${containerWorkspaceFolder}/MLOS/conda-envs/mlos.yml && conda run -n mlos pip install -U -r ${containerWorkspaceFolder}/requirements.txt"
     },
     // Various mounting, run, post-create, and user settings
     "containerEnv": {
