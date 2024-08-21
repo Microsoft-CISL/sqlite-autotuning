@@ -17,8 +17,7 @@ cd "$repo_root"
 container_name="$repo_name.$(stat -c%i "$repo_root/")"
 
 test -d MLOS || git clone --single-branch https://github.com/microsoft/MLOS.git
-# FIXME: avoid ssh prompts
-GIT_TERMINAL_PROMPT=0 git -C MLOS pull
+GIT_SSH_COMMAND='ssh -oBatchMode=yes' GIT_TERMINAL_PROMPT=0 git -C MLOS pull
 
 .devcontainer/build/build-devcontainer.sh
 
