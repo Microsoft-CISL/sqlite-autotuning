@@ -21,5 +21,12 @@ if ! docker exec $container_name true 2>/dev/null; then
 fi
 
 set -x
-docker exec -it "$container_name" $*
+
+DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS:-}"
+if [ "$1" == "-it" ]; then
+    shift
+    DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS} -it"
+fi
+
+docker exec "$DOCKER_EXEC_ARGS" "$container_name" $*
 

@@ -63,7 +63,7 @@ docker start $container_name
 # Change the UID of the vscode user to match the current user.
 docker exec -u root $container_name groupmod --non-unique --gid $(id -g) vscode
 docker exec -u root $container_name usermod --non-unique --uid $(id -u) --gid $(id -g) vscode
-docker exec -u root $container_name chown -R $(id -u):$(id -g) /home/vscode"
+docker exec -u root $container_name chown -R $(id -u):$(id -g) /home/vscode
 
 # Run the devcontainer startup scripts in the container we started.
 docker run --rm -i \
