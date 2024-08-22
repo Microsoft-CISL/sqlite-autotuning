@@ -60,6 +60,10 @@ docker create \
 
 docker start $container_name
 
+# Change the UID of the vscode user to match the current user.
+docker exec -u root $container_name \
+    /bin/bash -c "usermod --non-unique --uid $(id -u) vscode; chown $(id -u) /home/vscode"
+
 # Run the devcontainer startup scripts in the container we started.
 docker run --rm -i \
     -v /var/run/docker.sock:/var/run/docker.sock \
