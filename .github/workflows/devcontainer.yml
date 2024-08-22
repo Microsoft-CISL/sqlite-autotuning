@@ -51,4 +51,4 @@ jobs:
 
     - name: Run tests in devcontainer
       run: |
-        ./.devcontainer/scripts/run-devcontainer.sh scripts/test.sh
+        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test.sh
