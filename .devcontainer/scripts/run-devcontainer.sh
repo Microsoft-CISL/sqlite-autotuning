@@ -28,5 +28,5 @@ if [ "$1" == "-it" ]; then
     DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS} -it"
 fi
 
-docker exec "$DOCKER_EXEC_ARGS" "$container_name" $*
+docker exec $DOCKER_EXEC_ARGS "$container_name" $*
 
