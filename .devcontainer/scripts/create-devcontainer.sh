@@ -51,6 +51,7 @@ docker create \
     --env CONTAINER_WORKSPACE_FOLDER="/workspaces/$repo_name" \
     --env localWorkspaceFolder="$workspace_root" \
     --env LOCAL_WORKSPACE_FOLDER="$workspace_root" \
+    --env LOCAL_USER_NAME="$USER" \
     --env http_proxy="${http_proxy:-}" \
     --env https_proxy="${https_proxy:-}" \
     --env no_proxy="${no_proxy:-}" \
