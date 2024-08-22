@@ -41,7 +41,7 @@ set -x
 mkdir -p "/tmp/$container_name/dc/shellhistory"
 docker create \
     --name "$container_name" \
-    --user vscode:$docker_gid \
+    --user $(id -u):$docker_gid \
     -v "$HOME/.azure":/dc/azure \
     -v "/tmp/$container_name/dc/shellhistory:/dc/shellhistory" \
     -v /var/run/docker.sock:/var/run/docker.sock \
