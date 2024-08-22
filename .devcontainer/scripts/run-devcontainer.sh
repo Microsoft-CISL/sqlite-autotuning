@@ -26,6 +26,9 @@ DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS:-}"
 if [ "$1" == "-it" ]; then
     shift
     DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS} -it"
+elif [ "$1" == "-i" ]; then
+    shift
+    DOCKER_EXEC_ARGS="${DOCKER_EXEC_ARGS} -i"
 fi
 
 docker exec $DOCKER_EXEC_ARGS "$container_name" $*
