@@ -3,7 +3,7 @@
 //
 //  mlos_bench --config config/cli/local-sqlite-bench.jsonc \
 //      --globals experiment-sqlite.jsonc \
-//      --max_iterations 10
+//      --max_suggestions 10
 //
 {
     // Where to find additional config files:

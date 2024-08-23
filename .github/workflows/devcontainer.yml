@@ -1,0 +1,58 @@
+name: MLOS Autotuning DevContainer
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Manual MLOS Autotuning DevContainer run aux info tags
+      NO_CACHE:
+        type: boolean
+        description: Disable caching?
+        default: false
+        required: false
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  merge_group:
+    types: [checks_requested]
+  schedule:
+    - cron: "1 1 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  DevContainer:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    env:
+      DOCKER_BUILDKIT: 1
+      BUILDKIT_INLINE_CACHE: 1
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build devcontainer-cli image
+      run: |
+        ./.devcontainer/build/build-devcontainer-cli.sh
+
+    - name: Build devcontainer image
+      run: |
+        ./.devcontainer/build/build-devcontainer.sh
+
+    - name: Create devcontainer
+      run: |
+        ./.devcontainer/scripts/create-devcontainer.sh
+
+    - name: Run benchmark in devcontainer
+      run: |
+        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test_run.sh
+
+    - name: Run notebooks in devcontainer
+      run: |
+        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test_notebooks.sh

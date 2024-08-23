@@ -2,6 +2,7 @@
 # postCreateCommand metadata in its labels that it tried to rerun.
 name: mlos
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - pip
