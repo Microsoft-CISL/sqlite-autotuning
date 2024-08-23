@@ -9,7 +9,7 @@ target_db="mlos_bench.sqlite"
 
 set -x
 
-cat <<EOF | sqlite3
+cat <<EOF | sqlite3 -echo
 ATTACH DATABASE '$source_db' AS source_db;
 ATTACH DATABASE '$target_db' AS target_db;
 
@@ -22,12 +22,6 @@ SELECT exp_id FROM source_db.experiment
 WHERE exp_id NOT IN (SELECT exp_id FROM target_db.experiment)
 ;
 
-CREATE TEMPORARY TABLE max_config_id AS
-SELECT MAX(
-    (SELECT MAX(config_id) FROM source_db.config),
-    (SELECT MAX(config_id) FROM target_db.config)
-) AS config_id;
-
 -- ALTER TABLE target_db.experiment DROP COLUMN optimization_target;
 -- ALTER TABLE target_db.experiment DROP COLUMN optimization_direction;
 
@@ -36,11 +30,19 @@ SELECT exp_id, description, root_env_config, git_repo, git_commit FROM source_db
 WHERE exp_id IN (SELECT exp_id FROM source_experiments)
 ;
 
+/*
 -- Increment the config_ids in source_db so that they don't overlap the target_db configs.
 -- NOTE: This currently assumes the config_hashes are still unique.
+-- FIXME: Non-idempotent.
+CREATE TEMPORARY TABLE max_config_id AS
+SELECT MAX(
+    (SELECT MAX(config_id) FROM source_db.config),
+    (SELECT MAX(config_id) FROM target_db.config)
+) AS config_id;
 UPDATE source_db.config SET config_id = config_id + (SELECT MAX(config_id) FROM max_config_id);
 UPDATE source_db.config_param SET config_id = config_id + (SELECT MAX(config_id) FROM max_config_id);
 UPDATE source_db.trial SET config_id = config_id + (SELECT MAX(config_id) FROM max_config_id);
+*/
 
 INSERT INTO target_db.config (config_id, config_hash)
 SELECT config_id, config_hash FROM source_db.config
@@ -73,8 +75,8 @@ SELECT exp_id, trial_id, ts, metric_id, metric_value FROM source_db.trial_teleme
 WHERE exp_id IN (SELECT exp_id FROM source_experiments)
 ;
 
-/*
 SELECT * FROM target_db.experiment;
+/*
 SELECT * FROM target_db.config;
 SELECT * FROM target_db.config_param;
 SELECT * FROM target_db.trial;
