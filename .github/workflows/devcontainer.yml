@@ -49,6 +49,10 @@ jobs:
       run: |
         ./.devcontainer/scripts/create-devcontainer.sh
 
-    - name: Run tests in devcontainer
+    - name: Run benchmark in devcontainer
       run: |
-        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test.sh
+        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test_run.sh
+
+    - name: Run notebooks in devcontainer
+      run: |
+        DOCKER_EXEC_ARGS='-i' ./.devcontainer/scripts/run-devcontainer.sh scripts/test_notebooks.sh
