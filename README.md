@@ -1,5 +1,7 @@
 # MLOS Autotuning for Sqlite Repo
 
+[![MLOS Autotuning DevContainer](https://github.com/Microsoft-CISL/sqlite-autotuning/actions/workflows/devcontainer.yml/badge.svg)](https://github.com/Microsoft-CISL/sqlite-autotuning/actions/workflows/devcontainer.yml)
+
 This repo is a fork of the [mlos-autotuning-template](https://github.com/microsoft/mlos-autotuning-template) repo.
 
 It is meant as a basic class demo and example of tuning a local [`sqlite`](https://www.sqlite.org/) instance running via [`benchbase`](https://github.com/cmu-db/benchbase) and analyzing the results using [MLOS](https://github.com/microsoft/MLOS), a framework to help benchmark and automate systems tuning.
