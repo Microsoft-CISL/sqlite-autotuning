@@ -164,7 +164,7 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
 
     ```sh
     # Download the previously generated results database.
-    test -f mlos_bench.sqlite || wget -Nc https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/mlos_bench.sqlite
+    test -f mlos_bench.sqlite || wget -Nc https:///mlospublic.z13.web.core.windows.net/sqlite-autotuning/mlos_bench.sqlite
     ```
 
 1. Activate the conda environment in the integrated terminal (lower panel):
@@ -182,7 +182,7 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
 
     ```sh
     mkdir -p workdir/benchbase/db.bak
-    wget -Nc -O workdir/benchbase/db.bak/tpcc.db https://adumlosdemostorage.blob.core.windows.net/adu-mlos-db-example/adu_notebook_db/tpcc.db
+    wget -Nc -O workdir/benchbase/db.bak/tpcc.db https:///mlospublic.z13.web.core.windows.net/sqlite-autotuning/tpcc.db
     ```
 
 ## Using `mlos_bench`
