@@ -18,9 +18,10 @@
         ]
     },
 
-    // What metric to optimize.
-    "optimization_target": "90th Percentile Latency (microseconds)",
-    "optimization_direction": "min",
+    // What metrics to optimize.
+    "optimization_targets": {
+        "99th Percentile Latency (microseconds)": "min"
+    },
 
     // Store data in the workdir/ folder relative to the repo root.
     "workdir": "$PWD/workdir/",
