@@ -19,11 +19,6 @@
     // workload exercising it and possible groups of tunables associated with it.
     "environment": "environments/apps/sqlite/sqlite-local-benchbase.jsonc",
 
-    // Services to provide environment functionality.
-    "services": [
-        "services/local-exec-service.jsonc"
-    ],
-
     // In this case we use the default mlos_core optimizer to run a series of
     // trials for the experiment, testing different tunable values combinations
     // to try and arrive at a better config.
