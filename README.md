@@ -14,7 +14,7 @@ It is meant as a basic class demo and example of tuning a local [`sqlite`](https
     - [Contents](#contents)
     - [Background](#background)
     - [Overview](#overview)
-      - [Video](#video)
+        - [Video](#video)
     - [Setup](#setup)
         - [Prerequisites](#prerequisites)
             - [Codespaces](#codespaces)
@@ -221,10 +221,10 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
     ```sh
     # Run the optimization loop by referencing a different config file
     # that specifies an optimizer and objective target.
-    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --trial-config-repeat-count 3 --max-iterations 100
+    mlos_bench --config "./config/cli/local-sqlite-opt.jsonc" --globals "./config/experiments/sqlite-sync-journal-pagesize-caching-experiment.jsonc" --trial-config-repeat-count 3 --max-suggestions 100
     ```
 
-    The command above will run the optimization loop for 100 iterations, which should take about 30 minutes since each trial should takes about 12 seconds to run.
+    The command above will run the optimization loop for 100 suggested configurations, which should take about 30 minutes since each trial should takes about 12 seconds to run.
 
     > Note: a 10 second run is not very long evaluation period.  It's used here to keep the demo short, but in practice you would want to run for longer to get more accurate results.
 
