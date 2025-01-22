@@ -1,4 +1,5 @@
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 import requests
 import pandas as pd
@@ -964,68 +965,275 @@ if storage:
                 st.write("Failure Metrics not available")
 
         with tab3:
-            st.header("Graphs")
-            st.subheader("Select Columns to Graph Data On")
+            st.header("📊 Data Visualization")
 
-            try:
-                # Identify columns of interest
-                config_columns = [col for col in df.columns if col.startswith("config.")]
-                result_columns = [col for col in df.columns if col.startswith("result.")]
-                status_options = df["status"].unique().tolist()
+            if df.empty:
+                st.warning("No data available for visualization. Please load some data first.")
+            else:
+                try:
+                    with st.expander("📋 Visualization Settings", expanded=True):
+                        # Column Selection
+                        config_columns = [col for col in df.columns if col.startswith("config.")]
+                        result_columns = [col for col in df.columns if col.startswith("result.")]
+                        status_options = df["status"].unique().tolist()
 
-                # Streamlit UI for interactive input
-                st.header("Plot Settings")
-                selected_x_axes = st.multiselect(
-                    "Select X-axis Columns (Configurations)",
-                    options=config_columns,
-                    default=config_columns[:1],  # Default to the first config column
-                )
-                selected_y_axes = st.multiselect(
-                    "Select Y-axis Columns (Results)",
-                    options=result_columns,
-                    default=result_columns[:1],  # Default to the first result column
-                )
-                status_filter = st.multiselect(
-                    "Filter by Status",
-                    options=status_options,
-                    default=status_options,  # Default to include all statuses
-                )
-                show_grid = st.checkbox("Show Grid", value=True)
-                save_plots = st.checkbox("Save Plots", value=False)
+                        # Main Plot Settings
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            selected_x_axes = st.multiselect(
+                                "X-axis (Configurations)",
+                                options=config_columns,
+                                default=config_columns[:1],
+                                help="Select configuration parameters for X-axis",
+                            )
+                        with col2:
+                            selected_y_axes = st.multiselect(
+                                "Y-axis (Results)",
+                                options=result_columns,
+                                default=result_columns[:1],
+                                help="Select result metrics for Y-axis",
+                            )
 
-                # Filter the DataFrame based on status
-                filtered_df = df[df["status"].isin(status_filter)]
+                        # Plot Type and Filters
+                        col3, col4, col5 = st.columns(3)
+                        with col3:
+                            plot_type = st.selectbox(
+                                "Plot Type",
+                                options=[
+                                    "Scatter",
+                                    "Line",
+                                    "Box",
+                                    "Violin",
+                                    "2D Histogram",
+                                    "3D Scatter",
+                                    "Parallel Coordinates",
+                                ],
+                                help="Select visualization type",
+                            )
+                        with col4:
+                            status_filter = st.multiselect(
+                                "Status Filter",
+                                options=status_options,
+                                default=status_options,
+                                help="Filter by status",
+                            )
+                        with col5:
+                            template = st.selectbox(
+                                "Plot Theme",
+                                options=[
+                                    "plotly",
+                                    "plotly_white",
+                                    "plotly_dark",
+                                    "ggplot2",
+                                    "seaborn",
+                                ],
+                                help="Select plot visual theme",
+                            )
 
-                # Plot multiple scatter plots
-                st.header("Interactive Scatter Plots")
-                for x_axis in selected_x_axes:
-                    for y_axis in selected_y_axes:
-                        st.subheader(f"Plot: {y_axis} vs {x_axis}")
+                        # Additional Options
+                        col6, col7, col8, col9 = st.columns(4)
+                        with col6:
+                            show_stats = st.checkbox("Show Statistics", value=True)
+                        with col7:
+                            show_trend = st.checkbox("Show Trend Line", value=True)
+                        with col8:
+                            marginal_plot = st.checkbox("Show Marginal Plots", value=True)
+                        with col9:
+                            save_plots = st.checkbox("Enable Save Plots", value=False)
 
-                        # Create scatter plot using Plotly
-                        fig = px.scatter(
-                            filtered_df,
-                            x=x_axis,
-                            y=y_axis,
-                            color="status",
-                            title=f"{y_axis} vs {x_axis}",
-                            labels={"status": "Status", x_axis: x_axis, y_axis: y_axis},
-                        )
-                        fig.update_layout(
-                            xaxis_title=x_axis,
-                            yaxis_title=y_axis,
-                            showlegend=True,
-                        )
-                        st.plotly_chart(fig, use_container_width=True)
+                    # Filter data
+                    filtered_df = df[df["status"].isin(status_filter)]
 
-                        # Save the plot if selected
-                        if save_plots:
-                            filename = f"{x_axis}_vs_{y_axis}.html"
-                            fig.write_html(filename)
-                            st.success(f"Plot saved as {filename}")
+                    if filtered_df.empty:
+                        st.warning("No data points match the selected filters.")
+                    elif not selected_x_axes or not selected_y_axes:
+                        st.warning("Please select both X and Y axis parameters.")
+                    else:
+                        st.subheader("📈 Interactive Plots")
 
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+                        for x_axis in selected_x_axes:
+                            for y_axis in selected_y_axes:
+                                st.write(f"### {y_axis} vs {x_axis}")
+
+                                if plot_type == "Parallel Coordinates":
+                                    # Special handling for parallel coordinates
+                                    selected_cols = [x_axis, y_axis] + [
+                                        col for col in result_columns if col != y_axis
+                                    ][:4]
+                                    fig = px.parallel_coordinates(
+                                        filtered_df,
+                                        dimensions=selected_cols,
+                                        color=y_axis,
+                                        template=template,
+                                    )
+                                elif plot_type == "3D Scatter":
+                                    # 3D scatter with additional dimension
+                                    extra_dim = next(
+                                        (col for col in result_columns if col != y_axis),
+                                        result_columns[0],
+                                    )
+                                    fig = px.scatter_3d(
+                                        filtered_df,
+                                        x=x_axis,
+                                        y=y_axis,
+                                        z=extra_dim,
+                                        color="status",
+                                        template=template,
+                                        hover_data=["trial_id", "ts_start"],
+                                    )
+                                elif plot_type == "2D Histogram":
+                                    fig = px.density_heatmap(
+                                        filtered_df,
+                                        x=x_axis,
+                                        y=y_axis,
+                                        marginal_x="histogram",
+                                        marginal_y="histogram",
+                                        template=template,
+                                    )
+                                else:
+                                    # Standard 2D plots with marginal plots
+                                    if plot_type == "Scatter":
+                                        fig = px.scatter(
+                                            filtered_df,
+                                            x=x_axis,
+                                            y=y_axis,
+                                            color="status",
+                                            template=template,
+                                            hover_data=["trial_id", "ts_start"],
+                                            marginal_x="histogram" if marginal_plot else None,
+                                            marginal_y="histogram" if marginal_plot else None,
+                                        )
+                                    elif plot_type == "Line":
+                                        fig = px.line(
+                                            filtered_df.sort_values(x_axis),
+                                            x=x_axis,
+                                            y=y_axis,
+                                            color="status",
+                                            template=template,
+                                            markers=True,
+                                        )
+                                    elif plot_type == "Box":
+                                        fig = px.box(
+                                            filtered_df,
+                                            x=x_axis,
+                                            y=y_axis,
+                                            color="status",
+                                            template=template,
+                                            points="all",
+                                        )
+                                    else:  # Violin
+                                        fig = px.violin(
+                                            filtered_df,
+                                            x=x_axis,
+                                            y=y_axis,
+                                            color="status",
+                                            template=template,
+                                            box=True,
+                                            points="all",
+                                        )
+
+                                    # Add trend line for appropriate plot types
+                                    if show_trend and plot_type in ["Scatter", "Line"]:
+                                        try:
+                                            x_data = filtered_df[x_axis].astype(float)
+                                            y_data = filtered_df[y_axis].astype(float)
+
+                                            # Calculate trend line
+                                            z = np.polyfit(x_data, y_data, 1)
+                                            p = np.poly1d(z)
+
+                                            # Add trend line trace
+                                            fig.add_trace(
+                                                go.Scatter(
+                                                    x=x_data,
+                                                    y=p(x_data),
+                                                    name=f"Trend (R²={stats.pearsonr(x_data, y_data)[0]**2:.3f})",
+                                                    line=dict(color="red", dash="dash"),
+                                                    showlegend=True,
+                                                )
+                                            )
+                                        except Exception as e:
+                                            st.warning(f"Could not add trend line: {str(e)}")
+
+                                # Update layout
+                                fig.update_layout(
+                                    title=dict(
+                                        text=f"{y_axis} vs {x_axis}", x=0.5, xanchor="center"
+                                    ),
+                                    showlegend=True,
+                                    height=600,
+                                )
+
+                                # Display plot
+                                st.plotly_chart(fig, use_container_width=True)
+
+                                # Show statistics if enabled
+                                if show_stats:
+                                    with st.expander("📊 Statistical Analysis", expanded=False):
+                                        try:
+                                            # Basic statistics
+                                            col1, col2 = st.columns(2)
+                                            with col1:
+                                                st.write("X-axis Statistics:")
+                                                st.write(filtered_df[x_axis].describe())
+                                            with col2:
+                                                st.write("Y-axis Statistics:")
+                                                st.write(filtered_df[y_axis].describe())
+
+                                            # Correlation analysis
+                                            if (
+                                                filtered_df[x_axis].dtype.kind in "biufc"
+                                                and filtered_df[y_axis].dtype.kind in "biufc"
+                                            ):
+                                                pearson_corr = stats.pearsonr(
+                                                    filtered_df[x_axis], filtered_df[y_axis]
+                                                )
+                                                spearman_corr = stats.spearmanr(
+                                                    filtered_df[x_axis], filtered_df[y_axis]
+                                                )
+                                                st.write("### Correlation Analysis")
+                                                st.write(
+                                                    f"Pearson correlation: {pearson_corr[0]:.4f} (p-value: {pearson_corr[1]:.4f})"
+                                                )
+                                                st.write(
+                                                    f"Spearman correlation: {spearman_corr[0]:.4f} (p-value: {spearman_corr[1]:.4f})"
+                                                )
+                                        except Exception as e:
+                                            st.write(
+                                                "Could not calculate some statistics (non-numeric data or other error)"
+                                            )
+
+                                # Save plot functionality
+                                if save_plots:
+                                    col1, col2 = st.columns(2)
+                                    with col1:
+                                        # Save as HTML (interactive)
+                                        html_filename = f"{x_axis}_vs_{y_axis}_{plot_type}.html"
+                                        fig.write_html(html_filename)
+                                        with open(html_filename, "rb") as f:
+                                            st.download_button(
+                                                label="Download Interactive Plot (HTML)",
+                                                data=f,
+                                                file_name=html_filename,
+                                                mime="text/html",
+                                            )
+                                    with col2:
+                                        # Save as PNG (static)
+                                        png_filename = f"{x_axis}_vs_{y_axis}_{plot_type}.png"
+                                        fig.write_image(png_filename)
+                                        with open(png_filename, "rb") as f:
+                                            st.download_button(
+                                                label="Download Static Plot (PNG)",
+                                                data=f,
+                                                file_name=png_filename,
+                                                mime="image/png",
+                                            )
+
+                                st.markdown("---")  # Visual separator between plots
+
+                except Exception as e:
+                    st.error(f"An error occurred during visualization: {str(e)}")
+                    st.exception(e)
 
         with tab4:
             st.header("Correlation of Target Column With Parameters")
