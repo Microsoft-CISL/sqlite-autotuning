@@ -357,12 +357,8 @@ def display_config_details(experiment_data, config_prefix="config."):
         st.error("No 'tunable_config_id' column found in the DataFrame.")
 
 
-def plot_line_scatter_chart(df, target_col, benchmark_col="result.Benchmark Type"):
-    if (
-        "trial_id" not in df.columns
-        or target_col not in df.columns
-        or benchmark_col not in df.columns
-    ):
+def plot_line_scatter_chart(df, target_col, benchmark_col="results.latency_pct"):
+    if "trial_id" not in df.columns or target_col not in df.columns:
         st.error(
             f"'trial_id', '{target_col}', or '{benchmark_col}' column not found in DataFrame."
         )
@@ -712,214 +708,6 @@ def compare_score_distributions(df, target_col, config_id_1, config_id_2):
     st.plotly_chart(fig, use_container_width=True)
 
 
-# Function to create 3D scatter plot
-
-
-def plot_3d_config_result(
-    df, config_col1, config_col2, result_col, benchmark_col="result.Benchmark Type"
-):
-    if (
-        config_col1 not in df.columns
-        or config_col2 not in df.columns
-        or result_col not in df.columns
-        or benchmark_col not in df.columns
-    ):
-        st.error(
-            f"One or more columns: '{config_col1}', '{config_col2}', '{result_col}', or '{benchmark_col}' not found in DataFrame."
-        )
-        return
-
-    df[config_col1] = pd.to_numeric(df[config_col1], errors="coerce")
-    df[config_col2] = pd.to_numeric(df[config_col2], errors="coerce")
-    df[result_col] = pd.to_numeric(df[result_col], errors="coerce")
-
-    df = df.dropna(subset=[config_col1, config_col2, result_col, benchmark_col])
-
-    fig = px.scatter_3d(
-        df,
-        x=config_col1,
-        y=config_col2,
-        z=result_col,
-        color=benchmark_col,
-        labels={"x": config_col1, "y": config_col2, "z": result_col},
-        title=f"3D Scatter Plot of {config_col1}, {config_col2}, and {result_col} by {benchmark_col}",
-    )
-
-    fig.update_layout(
-        legend=dict(
-            font=dict(size=10),
-            itemsizing="constant",
-        ),
-        scene=dict(
-            xaxis_title=config_col1,
-            yaxis_title=config_col2,
-            zaxis_title=result_col,
-            aspectmode="manual",
-            aspectratio=dict(x=1.2, y=1.2, z=1),
-        ),
-        margin=dict(l=0, r=0, t=40, b=0),
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
-import plotly.graph_objs as go
-
-
-def plot_3d_surface_config_result(
-    df, config_col1, config_col2, result_col, benchmark_col="result.Benchmark Type"
-):
-    if (
-        config_col1 not in df.columns
-        or config_col2 not in df.columns
-        or result_col not in df.columns
-        or benchmark_col not in df.columns
-    ):
-        st.error(
-            f"One or more columns: '{config_col1}', '{config_col2}', '{result_col}', or '{benchmark_col}' not found in DataFrame."
-        )
-        return
-
-    df[config_col1] = pd.to_numeric(df[config_col1], errors="coerce")
-    df[config_col2] = pd.to_numeric(df[config_col2], errors="coerce")
-    df[result_col] = pd.to_numeric(df[result_col], errors="coerce")
-
-    df = df.dropna(subset=[config_col1, config_col2, result_col, benchmark_col])
-
-    unique_benchmarks = df[benchmark_col].unique()
-    fig = go.Figure()
-
-    for benchmark in unique_benchmarks:
-        benchmark_df = df[df[benchmark_col] == benchmark]
-        pivot_table = benchmark_df.pivot_table(
-            index=config_col1, columns=config_col2, values=result_col
-        ).fillna(0)
-
-        fig.add_trace(
-            go.Surface(
-                z=pivot_table.values, x=pivot_table.columns, y=pivot_table.index, name=benchmark
-            )
-        )
-
-    fig.update_layout(
-        title=f"3D Surface Plot of {config_col1}, {config_col2}, and {result_col} by {benchmark_col}",
-        scene=dict(
-            xaxis_title=config_col1,
-            yaxis_title=config_col2,
-            zaxis_title=result_col,
-            aspectmode="manual",
-            aspectratio=dict(x=1.2, y=1.2, z=1),
-        ),
-        margin=dict(l=0, r=0, t=40, b=0),
-        legend=dict(
-            font=dict(size=10),
-            itemsizing="constant",
-        ),
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
-def plot_2d_scatter(df, result_col, config_col, benchmark_col="result.Benchmark Type"):
-    """
-    Creates a 2D scatter plot to visualize the impact of a configuration parameter on a selected benchmark result.
-
-    Parameters:
-    df (pd.DataFrame): The DataFrame containing the data to plot.
-    result_col (str): The name of the result column to plot on the y-axis.
-    config_col (str): The name of the configuration column to plot on the x-axis.
-    benchmark_col (str): The name of the benchmark column to use for color differentiation.
-    """
-    if (
-        result_col not in df.columns
-        or config_col not in df.columns
-        or benchmark_col not in df.columns
-    ):
-        st.error("One or more columns not found in DataFrame.")
-        return
-
-    df[result_col] = pd.to_numeric(df[result_col], errors="coerce")
-    df[config_col] = pd.to_numeric(df[config_col], errors="coerce")
-    df = df.dropna(subset=[result_col, config_col, benchmark_col])
-
-    fig = px.scatter(
-        df,
-        x=config_col,
-        y=result_col,
-        color=benchmark_col,
-        title=f"Scatter Plot of {config_col} vs {result_col}",
-        labels={config_col: config_col, result_col: result_col},
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
-def plot_whisker_plots_all(df, target_col, benchmark_col="result.Benchmark Type"):
-    """
-    Plots whisker plots for all configurations with respect to a target column and differentiates by benchmark type.
-
-    Parameters:
-    df (pd.DataFrame): The DataFrame containing the data to plot.
-    target_col (str): The name of the target column to plot on the y-axis.
-    benchmark_col (str): The name of the benchmark column to use for color differentiation.
-    """
-    if (
-        "tunable_config_id" not in df.columns
-        or target_col not in df.columns
-        or benchmark_col not in df.columns
-    ):
-        st.error(
-            f"'tunable_config_id', '{target_col}', or '{benchmark_col}' column not found in DataFrame."
-        )
-        return
-
-    # Ensure the target column is numeric
-    df[target_col] = pd.to_numeric(df[target_col], errors="coerce")
-
-    # Drop rows with NaN values in target column
-    df = df.dropna(subset=[target_col])
-
-    # Plot whisker plots for all configurations with color differentiation by benchmark type
-    fig = px.box(
-        df,
-        x="tunable_config_id",
-        y=target_col,
-        color=benchmark_col,
-        points="all",
-        labels={"tunable_config_id": "Configuration ID", target_col: target_col},
-        title=f"Whisker Plot for All Configurations by {target_col}",
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
-
-def get_trial_ranges_by_benchmark(df):
-    # Adjust this to match your actual column name
-    benchmark_col = "result.Benchmark Type"
-    if benchmark_col not in df.columns:
-        st.error(f"Benchmark column '{benchmark_col}' not found in DataFrame.")
-        return {}
-
-    benchmark_types = df[benchmark_col].unique()
-    trial_ranges = {}
-    for benchmark in benchmark_types:
-        trial_ids = sorted(df[df[benchmark_col] == benchmark]["trial_id"].unique())
-        if trial_ids:
-            ranges = []
-            range_start = trial_ids[0]
-            previous_id = trial_ids[0]
-            for trial_id in trial_ids[1:]:
-                if trial_id != previous_id + 1:
-                    ranges.append((range_start, previous_id))
-                    range_start = trial_id
-                previous_id = trial_id
-            ranges.append((range_start, previous_id))
-            trial_ranges[benchmark] = ranges
-        else:
-            trial_ranges[benchmark] = []
-    return trial_ranges
-
-
 def plot_violin_plot(df, target_col, config_id_1, config_id_2):
     """
     Plots a violin plot for two specific configurations with respect to a target column.
@@ -1149,11 +937,13 @@ if storage:
         st.write("Descriptive Statistics:")
         st.dataframe(df.describe())
 
+        available_result_columns = [col for col in df.columns if col.startswith("result")]
+        target_col = st.selectbox("Select a Result Column", available_result_columns)
+
     if selected_experiment_id:
-        tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
+        tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(
             [
                 "Failure Metrics",
-                "Trial Ranges",
                 "Graphs",
                 "Correlation",
                 "Compare Configurations",
@@ -1173,54 +963,69 @@ if storage:
             except:
                 st.write("Failure Metrics not available")
 
-        with tab2:
-            st.header("Trial Ranges by Benchmark Type")
-            try:
-                trial_ranges = get_trial_ranges_by_benchmark(df)
-                for benchmark, ranges in trial_ranges.items():
-                    if ranges:
-                        st.subheader(f"Benchmark: {benchmark}")
-                        for start, end in ranges:
-                            st.write(f" - Trial ID Range: {start} - {end}")
-                    else:
-                        st.write(f"Benchmark: {benchmark} has no trials")
-            except:
-                st.write("Trial Ranges by Benchmark Type not available")
-
         with tab3:
             st.header("Graphs")
-            st.subheader("Select a Column to Graph Data On")
-            try:
-                config_columns = [col for col in df.columns if col.startswith("config")]
-                result_columns = [col for col in df.columns if col.startswith("result")]
-
-                target_col = st.selectbox("Select Target Column", result_columns)
-
-                st.subheader("Scatter of Trials & Target Column")
-                plot_line_scatter_chart(df, target_col)
-            except:
-                st.write("Scatter Plot not available")
-
-            st.subheader("Scatter of Target Column With One Config Parameter")
-            config_col = st.selectbox("Select Configuration Column", config_columns)
+            st.subheader("Select Columns to Graph Data On")
 
             try:
-                plot_2d_scatter(df, target_col, config_col)
-            except:
-                st.write("2D Scatter Plot not available")
+                # Identify columns of interest
+                config_columns = [col for col in df.columns if col.startswith("config.")]
+                result_columns = [col for col in df.columns if col.startswith("result.")]
+                status_options = df["status"].unique().tolist()
 
-            st.header("Result Column & Two Config Params")
-            try:
-                if config_columns and result_columns:
-                    config_col1 = st.selectbox("Select First Configuration Column", config_columns)
-                    config_col2 = st.selectbox(
-                        "Select Second Configuration Column", config_columns
-                    )
-                    result_col = st.selectbox("Select Result Column", result_columns)
+                # Streamlit UI for interactive input
+                st.header("Plot Settings")
+                selected_x_axes = st.multiselect(
+                    "Select X-axis Columns (Configurations)",
+                    options=config_columns,
+                    default=config_columns[:1],  # Default to the first config column
+                )
+                selected_y_axes = st.multiselect(
+                    "Select Y-axis Columns (Results)",
+                    options=result_columns,
+                    default=result_columns[:1],  # Default to the first result column
+                )
+                status_filter = st.multiselect(
+                    "Filter by Status",
+                    options=status_options,
+                    default=status_options,  # Default to include all statuses
+                )
+                show_grid = st.checkbox("Show Grid", value=True)
+                save_plots = st.checkbox("Save Plots", value=False)
 
-                    plot_3d_config_result(df, config_col1, config_col2, result_col)
-            except:
-                st.write("3D Scatter Plot not available")
+                # Filter the DataFrame based on status
+                filtered_df = df[df["status"].isin(status_filter)]
+
+                # Plot multiple scatter plots
+                st.header("Interactive Scatter Plots")
+                for x_axis in selected_x_axes:
+                    for y_axis in selected_y_axes:
+                        st.subheader(f"Plot: {y_axis} vs {x_axis}")
+
+                        # Create scatter plot using Plotly
+                        fig = px.scatter(
+                            filtered_df,
+                            x=x_axis,
+                            y=y_axis,
+                            color="status",
+                            title=f"{y_axis} vs {x_axis}",
+                            labels={"status": "Status", x_axis: x_axis, y_axis: y_axis},
+                        )
+                        fig.update_layout(
+                            xaxis_title=x_axis,
+                            yaxis_title=y_axis,
+                            showlegend=True,
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+
+                        # Save the plot if selected
+                        if save_plots:
+                            filename = f"{x_axis}_vs_{y_axis}.html"
+                            fig.write_html(filename)
+                            st.success(f"Plot saved as {filename}")
+
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 
         with tab4:
             st.header("Correlation of Target Column With Parameters")
@@ -1242,14 +1047,18 @@ if storage:
         with tab5:
             st.header("Compare Two Configurations")
             try:
+                available_result_columns = [col for col in df.columns if col.startswith("result")]
+                target_col_config = st.selectbox(
+                    "Select a Result Column", available_result_columns, key="t_col"
+                )
                 config_id_1 = st.selectbox(
                     "Select First Configuration ID", df["tunable_config_id"].unique()
                 )
                 config_id_2 = st.selectbox(
                     "Select Second Configuration ID", df["tunable_config_id"].unique()
                 )
-                compare_whisker_plots(df, target_col, config_id_1, config_id_2)
-                plot_violin_plot(df, target_col, config_id_1, config_id_2)
+                compare_whisker_plots(df, target_col_config, config_id_1, config_id_2)
+                plot_violin_plot(df, target_col_config, config_id_1, config_id_2)
             except:
                 st.write("Comparison Plots not available")
 
