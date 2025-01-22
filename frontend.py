@@ -13,6 +13,11 @@ from pathlib import Path
 import json5 as json
 import os
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from scipy.stats import ttest_ind, mannwhitneyu
+
+
 # Load the storage config and connect to the storage
 try:
     storage = storage = from_config(config="storage/sqlite.jsonc")
@@ -216,6 +221,79 @@ def plot_whisker_plots(df, target_col, n=5):
         labels={"tunable_config_id": "Configuration ID", target_col: target_col},
     )
     st.plotly_chart(fig_bottom, use_container_width=True)
+
+
+def run_pairwise_stat_tests(
+    df, result_col, group_col="tunable_config_id", alpha=0.05, test_type="ttest"
+):
+    """
+    Perform pairwise statistical significance tests on a result column,
+    grouped by a configuration column or tunable_config_id.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The DataFrame containing the data.
+    result_col : str
+        The name of the result column on which to base the test.
+    group_col : str
+        The column that identifies distinct configurations/groups (default = "tunable_config_id").
+    alpha : float
+        The significance level for the test (default = 0.05).
+    test_type : str
+        Which test to use: "ttest" for independent two-sample t-test,
+        or "mannwhitney" for Mann-Whitney U test.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame listing each pair of config groups, test statistic, p-value,
+        and a boolean indicating significance at the chosen alpha level.
+    """
+    # Drop rows where result_col is NaN or infinite
+    df = df.dropna(subset=[result_col]).copy()
+    df = df[np.isfinite(df[result_col])]
+
+    # Ensure result_col is numeric
+    df[result_col] = pd.to_numeric(df[result_col], errors="coerce")
+
+    # Get unique configurations
+    configs = df[group_col].unique()
+    results = []
+
+    # Compare each pair of unique configs
+    for i in range(len(configs)):
+        for j in range(i + 1, len(configs)):
+            cfg_i = configs[i]
+            cfg_j = configs[j]
+            data_i = df.loc[df[group_col] == cfg_i, result_col]
+            data_j = df.loc[df[group_col] == cfg_j, result_col]
+
+            # Skip if no data in one group
+            if data_i.empty or data_j.empty:
+                continue
+
+            # Perform the chosen test
+            if test_type == "mannwhitney":
+                stat, pval = mannwhitneyu(data_i, data_j, alternative="two-sided")
+            else:
+                # Default to t-test
+                stat, pval = ttest_ind(data_i, data_j, equal_var=False, nan_policy="omit")
+
+            is_significant = pval < alpha
+            results.append(
+                {
+                    "Config_A": cfg_i,
+                    "Config_B": cfg_j,
+                    "N_A": len(data_i),
+                    "N_B": len(data_j),
+                    "Test_Statistic": stat,
+                    "p-value": pval,
+                    "Significant": is_significant,
+                }
+            )
+
+    return pd.DataFrame(results)
 
 
 # Function to plot correlation between parameter changes and latency
@@ -942,7 +1020,7 @@ if storage:
         target_col = st.selectbox("Select a Result Column", available_result_columns)
 
     if selected_experiment_id:
-        tab1, tab3, tab4, tab5, tab6, tab7 = st.tabs(
+        tab1, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs(
             [
                 "Failure Metrics",
                 "Graphs",
@@ -950,6 +1028,8 @@ if storage:
                 "Compare Configurations",
                 "Compare Experiments",
                 "ChatGPT",
+                "Statistically Significant",
+                "Parallel Plot",
             ]
         )
 
@@ -1317,6 +1397,105 @@ if storage:
                     explanation = "Experiment explanation not available."
             st.subheader("Experiment Explanation")
             st.write(explanation)
+
+        #######################################
+        # NEW TAB: Statistical Significance
+        #######################################
+        with tab8:
+            st.header("Statistical Significance (Based on a Result Column)")
+
+            # 1. Let user pick which result column to analyze
+            df = storage.experiments[selected_experiment_id].results_df
+            result_cols = [c for c in df.columns if c.startswith("result")]
+            if not result_cols:
+                st.warning("No columns found that start with 'result'.")
+            else:
+                chosen_result_col = st.selectbox(
+                    "Select Result Column for Statistical Test:", options=result_cols, index=0
+                )
+
+                # 2. Select test type
+                test_type = st.selectbox(
+                    "Select Statistical Test:",
+                    options=["ttest", "mannwhitney"],
+                    index=0,
+                    help="Choose a test: 'ttest' (two-sample t-test) or 'mannwhitney' (non-parametric).",
+                )
+
+                # 3. Significance level alpha
+                alpha = st.number_input(
+                    "Significance Level (alpha)",
+                    min_value=0.001,
+                    max_value=0.1,
+                    value=0.05,
+                    step=0.01,
+                )
+
+                # 4. Perform pairwise tests
+                #    Group by default on "tunable_config_id"; you can also gather
+                #    unique config.* columns and group if you prefer.
+                if st.button("Run Pairwise Tests"):
+                    st.write(
+                        f"Performing pairwise {test_type} on `{chosen_result_col}`, alpha={alpha} ..."
+                    )
+                    results_df = run_pairwise_stat_tests(
+                        df=df,
+                        result_col=chosen_result_col,
+                        group_col="tunable_config_id",
+                        alpha=alpha,
+                        test_type=test_type,
+                    )
+
+                    if results_df.empty:
+                        st.warning("No pairs or no valid data to compare.")
+                    else:
+                        # 5. Display results
+                        st.dataframe(results_df)
+
+                        # Optionally highlight significant pairs
+                        st.write("Significant Pairs:")
+                        significant_pairs = results_df[results_df["Significant"] == True]
+                        if significant_pairs.empty:
+                            st.info(
+                                "No significant differences found at alpha = {:.3f}".format(alpha)
+                            )
+                        else:
+                            st.write(significant_pairs)
+            with tab9:
+                st.header("Parallel Coordinates Plot")
+                st.write(
+                    "Explore multi-dimensional relationships between configuration parameters and metrics."
+                )
+
+                parallel_columns = st.multiselect(
+                    "Select Columns for Parallel Plot",
+                    options=config_columns + result_columns,
+                    default=config_columns[:3] + result_columns[:2],
+                    help="Choose multiple columns to include in the parallel coordinates plot.",
+                )
+
+                if parallel_columns:
+                    color_metric = st.selectbox(
+                        "Select Metric for Coloring",
+                        options=result_columns,
+                        help="Choose a result metric to color-code the parallel coordinates.",
+                    )
+                    fig = px.parallel_coordinates(
+                        df,
+                        dimensions=parallel_columns,
+                        color=color_metric,
+                        color_continuous_scale=px.colors.diverging.Tealrose,
+                        title="Parallel Coordinates Plot",
+                        labels={
+                            col: col.replace("config.", "").replace("_", " ").title()
+                            for col in parallel_columns
+                        },
+                        template="plotly_white",
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("Select columns to generate the parallel coordinates plot.")
+
 
 else:
     st.warning("Storage configuration not loaded. Cannot display experiments.")
