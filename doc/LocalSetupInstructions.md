@@ -47,7 +47,7 @@ These instructions are for setting up your local development environment if you 
 5. Install the required local dependencies:
 
    ```bash
-   pip install -r requirements.txt
+   pip install -U -r requirements.txt
    ```
 
 6. Continue with the instructions in the README to set up and run the project.
