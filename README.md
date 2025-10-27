@@ -89,11 +89,17 @@ For this demo, we will be using Github's Codespaces feature to provide a pre-con
 
     For a more pleasant experience, we recommend connecting to the remote codespace using a local instance of VSCode, but it's not required.  You can also just use the web interface.
 
-    > It is also possible to use a local checkout of the code using `git`, `docker`, and a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers), but we omit these instructions for now.
+    > It is also possible to use a local checkout of the code using `git`, `docker`, and a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers), but it is a little more involved to set up.
+    > See [Local Setup Instructions](./doc/LocalSetupInstructions.md) for more details.
 
 ### Prior to Class
 
 1. Create a [github account](https://github.com/account) if you do not already have one.
+
+   > Note: Github Codespaces may not be available for free accounts in all regions.  If you run into issues, please reach out to the teaching team and we can assist prior to class starting.
+
+   > MS Accounts may also need to [link their Github account](https://docs.opensource.microsoft.com/github/opensource/accounts/linking/).
+
 1. Open the [project](https://github.com/Microsoft-CISL/sqlite-autotuning/) in your browser.
 
     Navigate to the green **<> Code** drop down at the top of page and select the green **Create codespace on main** button.
