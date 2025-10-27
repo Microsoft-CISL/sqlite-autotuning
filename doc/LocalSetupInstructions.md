@@ -50,4 +50,11 @@ These instructions are for setting up your local development environment if you 
    pip install -U -r requirements.txt
    ```
 
-6. Continue with the instructions in the README to set up and run the project.
+6. Get the remote data files:
+
+   ```bash
+   test -f mlos_bench.sqlite || wget -q -Nc https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/mlos_bench.sqlite
+   mkdir -p workdir/benchbase/db.bak && wget -q -c -O workdir/benchbase/db.bak/tpcc.db https://mlospublic.z13.web.core.windows.net/sqlite-autotuning/tpcc.db
+   ```
+
+7. Continue with the instructions in the README to set up and run the project.
