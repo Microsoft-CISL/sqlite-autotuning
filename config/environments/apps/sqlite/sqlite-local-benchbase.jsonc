@@ -83,8 +83,8 @@
             "cp $workdir/$experiment_id/$trial_id/benchbase-$BENCHBASE_BENCHMARK-system-metrics.csv benchbase-system-metrics.csv",
 
             // Combine the two CSV files into a single one.
-            "sed -i '/^metric,value$/d' benchbase-system-metrics.csv",
-            "cat benchbase-metrics.csv benchbase-system-metrics.csv > benchbase-combined-metrics.csv"
+            "cat benchbase-metrics.csv > benchbase-combined-metrics.csv",
+            "grep -v 'metric,value' benchbase-system-metrics.csv >> benchbase-combined-metrics.csv"
         ],
 
         // Finally, we instruct the optimizer and results storage engine to use
