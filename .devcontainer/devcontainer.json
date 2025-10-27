@@ -3,6 +3,11 @@
 // vim: set ft=jsonc:
 {
     "name": "MLOS Devcontainer",
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "16gb",
+        "storage": "32gb"
+    },
     // Reuse the devcontainer image from mlos for now.
     "dockerFile": "./Dockerfile",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
