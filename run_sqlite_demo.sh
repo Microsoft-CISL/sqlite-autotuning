@@ -6,7 +6,7 @@ scriptdir=$(dirname "$(readlink -f "$0")")
 cd "$scriptdir/"
 
 TRIAL_CONFIG_REPEAT_CONFIG=${MAX_SUGGESTIONS:-3}
-MAX_SUGGESTIONS=${MAX_SUGGESTIONS:-100}
+MAX_SUGGESTIONS=${MAX_SUGGESTIONS:-30}
 LOG_LEVEL=${LOG_LEVEL:-INFO}
 
 set -x

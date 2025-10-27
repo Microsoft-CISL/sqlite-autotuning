@@ -67,6 +67,7 @@
             "settings": {
                 // Adjust the python interpreter path to point to the conda environment
                 "python.defaultInterpreterPath": "/opt/conda/envs/mlos/bin/python",
+                "jupyter.notebook.defaultKernel": "/opt/conda/envs/mlos/bin/python",
                 "python.testing.pytestPath": "/opt/conda/envs/mlos/bin/pytest",
                 "python.linting.pylintPath": "/opt/conda/envs/mlos/bin/pylint",
                 "pylint.path": [
